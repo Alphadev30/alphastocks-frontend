@@ -1,0 +1,39 @@
+.footer {
+    background-color: #325B51;
+    color: white;
+    padding: 7px 0;
+    text-align: center;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p{
+        margin-right: 25px;
+    }
+  }
+  
+  .social-icons a {
+    color: white;
+    margin-left: 23px;
+    font-size: 14px; /* Adjust the icon size as needed */
+    text-decoration: none;
+  }
+  
+  /* Style for the LinkedIn button */
+  .social-icons a.linkedin {
+    background-color: #0077B5; /* LinkedIn's brand color */
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
+  
+  .social-icons a.linkedin i {
+    color: white;
+  }
+  
+  /* Hover effect for the LinkedIn button */
+  .social-icons a.linkedin:hover {
+    background-color: #005EAB; /* Darker shade for hover effect */
+  }

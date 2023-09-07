@@ -1,0 +1,16 @@
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'truncate'
+})
+export class TruncatePipe implements PipeTransform {
+
+  transform(value: string, words: number): string {
+    const wordArray = value.split(' ');
+    if (wordArray.length > words) {
+      return wordArray.slice(0, words).join(' ') + '...'; // Add ellipsis for truncated text
+    }
+    return value;
+  }
+
+}

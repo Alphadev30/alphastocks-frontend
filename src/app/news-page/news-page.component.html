@@ -1,0 +1,38 @@
+<div class="container">
+    <main class="content">
+        <section class="header">
+            <h1>NEWS ANALYSIS</h1>
+        </section>
+
+        <section class="news-tables">
+          
+            <table class="news-table">
+                <thead>
+                  <tr>
+            
+                    <th>Company</th>
+                    <th>News</th>
+                    <th>Sentiment</th>
+                    <th>AI Analysis</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let newsItem of displayedNewsData; let i = index" (click)="openPopup(newsItem)">
+                        <td>{{ newsItem.companyName }}</td>
+                        <td>{{ newsItem.news.title  }}</td>
+                        <td><u>{{ newsItem.sentiment }}</u></td>
+                        <td>{{ newsItem.analysis | truncate: 8 }}</td>
+                        <td>{{ newsItem.news.date| date}}</td>
+                      </tr>
+                </tbody>
+              </table>
+
+              <div class="pagination">
+                <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+                <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+              </div>
+              
+        </section>
+    </main>
+</div>

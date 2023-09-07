@@ -1,0 +1,21 @@
+<div class="page-container">
+    <div class="chat-container">
+        <h4>Chat with our news bot for Sentiment Analysis</h4>
+        <hr>
+        <div class="chat-messages">
+          <!-- Messages will be displayed here -->
+          <div *ngFor="let message of chatMessages" [ngClass]="message.type">
+            {{ message.text }}
+          </div>
+        </div>
+      
+        <div class="user-input">
+          <!-- Input field and Send button -->
+          <input [(ngModel)]="userMessage" (keyup.enter)="sendMessage()" placeholder="Type your message..." />
+          <button (click)="sendMessage()">Send</button>
+        </div>
+      </div>
+</div>
+
+
+  
