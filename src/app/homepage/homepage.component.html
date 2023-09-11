@@ -1,5 +1,4 @@
-<div class="container">
-
+<body>
 
     <main class="content">
         <section class="intro">
@@ -8,35 +7,102 @@
                 about stocks, make long-term investment decisions, and understand market sentiment.</p>
         </section>
 
-        <section class="tick-marks-section">
-            <div class="tick-mark">✔️ Easy News Reading</div>
-            <div class="tick-mark">✔️ Smart Investment Help</div>
-            <div class="tick-mark">✔️ Simpler Understanding</div>
+
+        <section class="info-cards">
+            <h3>Our Services</h3>
+            <ol>
+                
+                <li style="--accent-color: #6A829A">
+
+                    <div class="title">Data Gathering</div>
+                    <hr class="mb-2">
+                    <div class="descr">Our bots collect extensive data from various sources, including historical stock
+                        prices and news articles</div>
+                </li>
+
+                <li style="--accent-color: #FF6F00">
+
+                    <div class="title">Advanced Analysis</div>
+                    <hr class="mb-2">
+                    <div class="descr">AUsing complex algorithms, they analyze this data to identify patterns, trends,
+                        and potential investment opportunities.</div>
+                </li>
+                <li style="--accent-color: #008DC2">
+
+                    <div class="title">Customization</div>
+                    <hr class="mb-2">
+                    <div class="descr">Users can tailor the bot's analysis by adjusting parameters like Moving Averages
+                        and MACD to suit their investment strategies</div>
+                </li>
+                <li style="--accent-color: #0B456A">
+
+                    <div class="title ">Coverage</div>
+                    <hr class="mb-2">
+                    <div class="descr">Our bots perform these analyses on over 300 companies listed on NSE, offering
+                        users a curated list of stocks aligned with their preferences.
+                    </div>
+                </li>
+
+            </ol>
         </section>
 
-        <section class="features">
 
-            <div class="feature">
-                <img src="assets/ai.png" alt="Sentiment Analysis">
-                <h2>Sentiment Analysis</h2>
-                <p>Our sentiment analysis engine categorizes news articles as positive, negative, or neutral, helping
-                    you gauge market sentiment around stocks.</p>
-            </div>
-            <div class="feature">
-                <img src="assets/News-analysis.jpg" alt="Technical Analysis">
-                <h2>Live News Insights</h2>
-                <p>Stay ahead with real-time news analysis and market insights. Chat with our news bot for instant updates
-                    and smarter investment decisions.</p>
-            </div>
-            <div class="feature">
-                <img src="assets/technical-analysis.jpg" alt="Technical Analysis">
-                <h2>Technical Analysis</h2>
-                <p>We perform technical analysis on stocks, identifying trends and patterns that aid in making informed
-                    investment decisions.</p>
-            </div>
-            
+
+
+        <section class="chat">
+            <app-sentiment-analysis></app-sentiment-analysis>
         </section>
 
-        
+
+
+
+        <!-- <section class="tick-marks-section">
+                <div class="tick-mark">✔️ Easy News Reading</div>
+                <div class="tick-mark">✔️ Smart Investment Help</div>
+                <div class="tick-mark">✔️ Simpler Understanding</div>
+            </section> -->
+
+
+
+        <section class="cards-wrapper">
+            <div class="card-grid-space">
+
+                <a class="card" style="--bg-img: url('assets/ai.png')">
+                    <div>
+                        <h1>Sentiment Analysis</h1>
+                        <p>Our sentiment analysis engine categorizes news articles as positive, negative, or neutral,
+                            helping
+                            you gauge market sentiment around stocks.</p>
+
+
+                    </div>
+                </a>
+            </div>
+            <div class="card-grid-space">
+
+                <a class="card" style="--bg-img: url('assets/News-analysis.jpg')">
+                    <div>
+                        <h1>Live News Insights</h1>
+                        <p>Stay ahead with real-time news analysis and market insights. Chat with our news bot for
+                            instant updates
+                            and smarter investment decisions</p>
+
+                    </div>
+                </a>
+            </div>
+            <div class="card-grid-space">
+
+                <a class="card" style="--bg-img: url('assets/technical-analysis.jpg')">
+                    <div>
+                        <h1>Technical Analysis</h1>
+                        <p>We perform technical analysis on stocks, identifying trends and patterns that aid in making
+                            informed
+                            investment decisions.</p>
+                    </div>
+                </a>
+            </div>
+            <!-- https://images.unsplash.com/photo-1520839090488-4a6c211e2f94?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=38951b8650067840307cba514b554ba5&auto=format&fit=crop&w=1350&q=80 -->
+        </section>
     </main>
-</div>
+
+</body>
