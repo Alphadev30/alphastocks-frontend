@@ -1,0 +1,183 @@
+<div class="dashboard-container">
+
+    <div class="loading-container" *ngIf="isLoading">
+        <h3>Let our bots do the heavy lifting while you relax</h3>
+        <div class="loading-overlay"></div>
+        <div class="loading-spinner"></div>
+
+    </div>
+
+    <h1>Master Dashboard</h1>
+    <p> <span #typingElement id="typing"></span> </p>
+
+
+
+    <div class="dashboard-content">
+
+        <div class="parameter-section">
+            <h2>Set Parameters</h2>
+
+            <!-- MA Crossovers -->
+            <div class="parameter-group">
+                <h3>MA Crossovers</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="shortMa">Short MA:</label>
+                        <input type="number" id="shortMa" name="shortMa" [(ngModel)]="shortMa">
+                    </div>
+                    <div class="form-group">
+                        <label for="longMa">Long MA:</label>
+                        <input type="number" id="longMa" name="longMa" [(ngModel)]="longMa">
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- MACD Parameters -->
+            <div class="parameter-group">
+                <h3>MACD Parameters</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="macdFastLength">Fast Length:</label>
+                        <input type="number" id="macdFastLength" name="macdFastLength" [(ngModel)]="macdFastLength">
+                    </div>
+                    <div class="form-group">
+                        <label for="macdSlowLength">Slow Length:</label>
+                        <input type="number" id="macdSlowLength" name="macdSlowLength" [(ngModel)]="macdSlowLength">
+                    </div>
+                    <div class="form-group">
+                        <label for="macdSignalLength">Signal Length:</label>
+                        <input type="number" id="macdSignalLength" name="macdSignalLength"
+                            [(ngModel)]="macdSignalLength">
+                    </div>
+                </form>
+            </div>
+
+
+
+            <!-- Candlestick Timeframe -->
+            <div class="parameter-group">
+                <h3>Candlestick Timeframe</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="timeframe">Select Timeframe:</label>
+                        <select id="timeframe" name="timeframe" [(ngModel)]="selectedTimeframe">
+                            <option value="1d">1 Day</option>
+                            <option value="1wk">1 Week</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <div class="submit-buttons">
+                <button class="button" (click)="setDefaultValues()">DEFAULT VALUES</button>
+                <button class="button button-primary" (click)="findMaCrossovers()">RUN</button>
+            </div>
+
+        </div>
+
+        <div class="results-section">
+
+            <div class="tab-buttons">
+                <div class="left-buttons">
+                    <button class="button" [ngClass]="{'active-btn': showingMaData}" (click)="showMaTab()">MA
+                        CROSS</button>
+                    <button class="button" [ngClass]="{'active-btn': !showingMaData}" (click)="showMacdTab()">MACD
+                        CROSS</button>
+                </div>
+                <button class="button filter-button" (click)="showFilterPopup()">Filters</button>
+
+            </div>
+
+            <!-- Create a hidden filter popup -->
+            <div class="filter-popup" *ngIf="showFilter">
+                <h3 class="mb-3 mt-2">Filter Options : </h3>
+                <label>
+                    <input type="checkbox" [(ngModel)]="filterOptions.volumeIncreasing"> Filter stocks with consistent
+                    volume growth over the past 3 days
+                </label>
+                <label>
+                    <input type="checkbox" [(ngModel)]="filterOptions.todayVolumeGreaterThanAvg"> Filter stocks with
+                    today's volume exceeding the one-week average
+                </label>
+                <label>
+                    <input type="checkbox" [(ngModel)]="filterOptions.priceIncreasing"> Filter stocks with consistent
+                    price growth over the past 3 days
+                </label>
+                <div class="filter-buttons">
+                    <button class="button" (click)="closeFilterPopup()">Close</button>
+                    <button class="button button-primary" (click)="applyFilters()">Submit</button>
+                </div>
+            </div>
+
+            <hr class="tab-hr">
+
+            <h2>{{ resultMessage }}</h2>
+
+
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stock Name</th>
+                        <th>Current Price</th>
+                        <th>Volume - 3 days</th>
+                        <th>Price - 3 days</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let stock of displayedStockData; let i = index">
+                        <td>{{ stock.symbol }}</td>
+                        <td>{{ stock.price.today | number:'1.0-0' }}</td>
+
+                        <td>
+                            <div class="bar-chart">
+                                <app-bar-chart
+                                    [chartData]="[stock.volume.twoDayPrior, stock.volume.oneDayPrior, stock.volume.today]"
+                                    [chartLabels]="['', '', '']"></app-bar-chart>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="bar-chart">
+                                <app-bar-chart
+                                    [chartData]="[stock.price.twoDayPrior, stock.price.oneDayPrior, stock.price.today]"
+                                    [chartLabels]="['', '', '']"></app-bar-chart>
+                            </div>
+                        </td>
+
+
+                    </tr>
+
+                    <tr class="d-none">
+                        <td>IGL</td>
+                        <td>482</td>
+                        <td>
+                            <div class="bar-chart">
+                                <app-bar-chart [chartData]="[10,38, 20]" [chartLabels]="['', '', '']"></app-bar-chart>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bar-chart">
+                                <app-bar-chart [chartData]="[10,38, 20]" [chartLabels]="['', '', '']"></app-bar-chart>
+                            </div>
+                        </td>
+
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+
+
+
+            <div class="pagination">
+                <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+                <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+            </div>
+        </div>
+    </div>
+</div>

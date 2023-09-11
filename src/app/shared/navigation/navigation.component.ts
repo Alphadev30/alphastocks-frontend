@@ -17,7 +17,11 @@ export class NavigationComponent {
     this.router.navigate(['/news']);
   }
 
-  navigateToAnalysis() : void {
+  navigateToChat() : void {
     this.router.navigate(['/chat']);
+  }
+
+  navigateToTechnical() : void {
+    this.router.navigate(['/dashboard']);
   }
 }

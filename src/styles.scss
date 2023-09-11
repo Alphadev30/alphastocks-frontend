@@ -1,8 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200&display=swap');
+@import "~bootstrap/dist/css/bootstrap.css";
+
 
 /* You can add global styles to this file, and also import other style files */
 body{
     margin: 0 !important;
     font-family: 'Titillium Web', sans-serif;
 }
+
+/* Default button style */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+/* Hover effect */
+.button:hover {
+    background-color: #c3cbd5; /* Darker shade for primary */
+    color: #5b5555;
+}
+
+.button-primary{
+    background-color: #98a1ac; /* Darker shade for primary */
+    color: #ffffff;
+}
+
+
+
+
+
+
 

@@ -15,10 +15,13 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
+import { NgChartsModule  } from 'ng2-charts';
 
 
 import { FooterComponent } from './shared/footer/footer.component';
-import { SentimentAnalysisComponent } from './sentiment-analysis/sentiment-analysis.component'
+import { SentimentAnalysisComponent } from './sentiment-analysis/sentiment-analysis.component';
+import { TechnicalDashboardComponent } from './technical-dashboard/technical-dashboard.component';
+import { BarChartComponent } from './bar-chart/bar-chart.component'
 
 
 @NgModule({
@@ -32,13 +35,16 @@ import { SentimentAnalysisComponent } from './sentiment-analysis/sentiment-analy
     TruncatePipe,
     FooterComponent,
     SentimentAnalysisComponent,
+    TechnicalDashboardComponent,
+    BarChartComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FontAwesomeModule ,
-    FormsModule
+    FormsModule,
+    NgChartsModule 
   ],
   providers: [CompanyDataServices],
   bootstrap: [AppComponent]
