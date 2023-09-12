@@ -21,7 +21,8 @@ import { NgChartsModule  } from 'ng2-charts';
 import { FooterComponent } from './shared/footer/footer.component';
 import { SentimentAnalysisComponent } from './sentiment-analysis/sentiment-analysis.component';
 import { TechnicalDashboardComponent } from './technical-dashboard/technical-dashboard.component';
-import { BarChartComponent } from './bar-chart/bar-chart.component'
+import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { DocumentationComponent } from './documentation/documentation.component'
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { BarChartComponent } from './bar-chart/bar-chart.component'
     SentimentAnalysisComponent,
     TechnicalDashboardComponent,
     BarChartComponent,
+    DocumentationComponent,
   ],
   imports: [
     BrowserModule,

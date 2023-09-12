@@ -249,6 +249,22 @@ nav.drown ul li a:hover:before {
   top: 0;
   background: #89C52B;
 }
+/* CSS for the logo and navigation bar */
+.logo {
+  padding: 10px; /* Add padding to create space around the logo */
+}
+
+.logo img {
+  height: 50px; /* Set the height of the logo image */
+  width: auto; /* Maintain aspect ratio */
+  display: inline-block; /* Ensure the logo aligns with the navigation */
+  vertical-align: middle; /* Vertically align the logo with navigation items */
+  margin-right: 20px; /* Add margin to separate the logo from navigation items */
+}
+
+
+
+
 
 
 
