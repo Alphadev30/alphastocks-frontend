@@ -18,7 +18,7 @@
             <h2>Set Parameters</h2>
 
             <!-- MA Crossovers -->
-            <div class="parameter-group">
+            <div class="parameter-group" *ngIf="showingMaData">
                 <h3>MA Crossovers</h3>
                 <form>
                     <div class="form-group">
@@ -34,7 +34,7 @@
             </div>
 
             <!-- MACD Parameters -->
-            <div class="parameter-group">
+            <div class="parameter-group" *ngIf="!showingMaData">
                 <h3>MACD Parameters</h3>
                 <form>
                     <div class="form-group">
@@ -62,7 +62,7 @@
                     <div class="form-group">
                         <label for="timeframe">Select Timeframe:</label>
                         <select id="timeframe" name="timeframe" [(ngModel)]="selectedTimeframe">
-                            <option value="1d">1 Day</option>
+                            <option value="1D">1 Day</option>
                             <option value="1wk">1 Week</option>
                         </select>
                     </div>
@@ -71,7 +71,7 @@
 
             <div class="submit-buttons">
                 <button class="button" (click)="setDefaultValues()">DEFAULT VALUES</button>
-                <button class="button button-primary" (click)="findMaCrossovers()">RUN</button>
+                <button class="button button-primary" (click)="runBot()">RUN</button>
             </div>
 
         </div>
@@ -122,16 +122,19 @@
                     <tr>
                         <th>Stock Name</th>
                         <th>Current Price</th>
+                        <th>% Change <span *ngIf="selectedTimeframe == '1wk'">( Weekly )</span><span *ngIf="selectedTimeframe == '1D'">( Daily )</span></th>
                         <th>Volume - 3 days</th>
-                        <th>Price - 3 days</th>
-
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let stock of displayedStockData; let i = index">
                         <td>{{ stock.symbol }}</td>
-                        <td>{{ stock.price.today | number:'1.0-0' }}</td>
+                        <td>{{ stock.price.today | number:'1.0-0' }}
 
+                        </td>
+                        <td [ngStyle]="{'color': getPercentageChangeColor(stock.price.today, stock.price.oneDayPrior)}">
+                            {{ calculatePercentageChange(stock.price.today, stock.price.oneDayPrior) }}
+                        </td>
                         <td>
                             <div class="bar-chart">
                                 <app-bar-chart
@@ -140,32 +143,41 @@
                             </div>
                         </td>
 
-                        <td>
-                            <div class="bar-chart">
-                                <app-bar-chart
-                                    [chartData]="[stock.price.twoDayPrior, stock.price.oneDayPrior, stock.price.today]"
-                                    [chartLabels]="['', '', '']"></app-bar-chart>
-                            </div>
-                        </td>
+
+
+
 
 
                     </tr>
 
                     <tr class="d-none">
                         <td>IGL</td>
-                        <td>482</td>
+                        <td>482
+        
+                        </td>
                         <td>
-                            <div class="bar-chart">
-                                <app-bar-chart [chartData]="[10,38, 20]" [chartLabels]="['', '', '']"></app-bar-chart>
-                            </div>
+                            2.4%
                         </td>
                         <td>
                             <div class="bar-chart">
                                 <app-bar-chart [chartData]="[10,38, 20]" [chartLabels]="['', '', '']"></app-bar-chart>
                             </div>
                         </td>
+                    </tr>
 
-
+                    <tr class="d-none">
+                        <td>TCS</td>
+                        <td>4820
+            
+                        </td>
+                        <td>
+                            -2.2%
+                        </td>
+                        <td>
+                            <div class="bar-chart">
+                                <app-bar-chart [chartData]="[10,58, 19]" [chartLabels]="['', '', '']"></app-bar-chart>
+                            </div>
+                        </td>
                     </tr>
 
                 </tbody>

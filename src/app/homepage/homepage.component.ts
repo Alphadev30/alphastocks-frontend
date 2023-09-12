@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -8,7 +9,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 export class HomepageComponent implements OnInit {
   @ViewChild('typingElement', { static: true }) typingElement!: ElementRef;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     const bannerHeading = this.typingElement.nativeElement;
@@ -24,6 +25,10 @@ export class HomepageComponent implements OnInit {
     }
 
     type();
+  }
+
+  navigateToDocs() : void {
+    this.router.navigate(['/documentation']);
   }
 
 }

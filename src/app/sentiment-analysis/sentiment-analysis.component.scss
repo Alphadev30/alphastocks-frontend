@@ -30,19 +30,13 @@
     input {
       flex-grow: 1;
       padding: 8px;
+      height: 42.8px;
       border: 1px solid #ccc;
       border-radius: 4px;
       margin-right: 8px;
     }
   
-    button {
-      background-color: #325B51;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 8px 16px;
-      cursor: pointer;
-    }
+
   }
   
   /* Define CSS classes for user and bot messages */
