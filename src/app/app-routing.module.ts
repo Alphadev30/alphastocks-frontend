@@ -10,7 +10,7 @@ import { DocumentationComponent } from './documentation/documentation.component'
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/news', pathMatch: 'full' }, // Redirect to news page
+  { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect to news page
   { path: 'news', component: NewsPageComponent },
   { path: 'home', component: HomepageComponent },
   { path: 'popup', component: NewsPopupComponent }, // Add a route for the Popup Component
