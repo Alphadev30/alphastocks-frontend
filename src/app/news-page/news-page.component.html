@@ -13,8 +13,8 @@
                     <th>Company</th>
                     <th>News</th>
                     <th>Sentiment</th>
-                    <th>AI Analysis</th>
-                    <th>Date</th>
+                    <th class="d-none d-sm-block">AI Analysis</th>
+                    <th class="d-none d-sm-blockk">Date</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -22,8 +22,8 @@
                         <td>{{ newsItem.companyName }}</td>
                         <td>{{ newsItem.news.title  }}</td>
                         <td><u>{{ newsItem.sentiment }}</u></td>
-                        <td>{{ newsItem.analysis | truncate: 8 }}</td>
-                        <td>{{ newsItem.news.date| date}}</td>
+                        <td class="d-none d-sm-block">{{ newsItem.analysis | truncate: 14 }}</td>
+                        <td class="d-none d-sm-block">{{ newsItem.news.date| date}}</td>
                       </tr>
                 </tbody>
               </table>

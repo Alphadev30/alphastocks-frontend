@@ -2,7 +2,8 @@
     <div class="popup-content">
         <!-- Popup content goes here -->
         <h2>{{ newsItem.news.title }}</h2>
-        <p><b>Sentiment: </b> {{ newsItem.sentiment }}</p>
+        <p class="mt-3"><b>Sentiment: </b> {{ newsItem.sentiment }} </p>
+        <p><b>Date: </b> : {{ newsItem.news.date| date }}</p>
         <p><b>AI Analysis: </b> : {{ newsItem.analysis }}</p>
         <p><b>Full News: </b> : {{ newsItem.news.content }}</p>
         <button (click)="closePopup()">Close</button>

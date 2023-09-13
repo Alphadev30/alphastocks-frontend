@@ -1,62 +1,89 @@
+/* Base styles for larger screens (desktop/tablet) */
 .page-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  }
-  
-  .chat-container {
-    padding: 20px;
+.chat-container {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  align-self: center;
+  margin: 8% 10%;
+  width: 120vh;
+}
+
+.chat-messages {
+  overflow-y: auto;
+  max-height: 55vh;
+}
+
+.user-input {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+
+  input {
+    flex-grow: 1;
+    padding: 8px;
+    height: 42.8px;
     border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #fff;
-    align-self: center; /* Horizontally center the chat container */
-    margin: 8% 10%;
-    width: 120vh;
-    //margin-top: 20%; /* Push the chat container to the bottom */
+    border-radius: 4px;
+    margin-right: 8px;
   }
-  
-  .chat-messages {
-    overflow-y: auto;
-    max-height: 55vh;
+}
 
+.user {
+  background-color: #a6b4bd;
+  color: white;
+  text-align: left;
+  margin-top: 15px;
+  margin-left: 10%;
+  text-decoration: solid;
+  padding: 6px;
+}
+
+.bot {
+  background-color: #93beb3;
+  text-decoration: solid;
+  color: white;
+  text-align: left;
+  margin-top: 15px;
+  margin-right: 10%;
+  padding: 6px;
+}
+
+/* Media query for mobile screens */
+@media screen and (max-width: 768px) {
+
+
+  .chat-container {
+    width: 80%; /* Adjust width to fit the screen */
+    margin: 0; /* Remove margin for full-width display */
   }
-  
+
   .user-input {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
+    flex-direction: row; /* Stack input above the button on mobile */
+    align-items: flex-start; /* Align input and button to the left on mobile */
   
-    input {
-      flex-grow: 1;
-      padding: 8px;
-      height: 42.8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      margin-right: 8px;
-    }
-  
+    margin-top: 20px;
 
+    .button{
+      height: 42px !important;
+      font-size: 12px;
+    }
+    
+    input {
+      margin-bottom: 10px; /* Add spacing between input and button on mobile */
+      width: 100%;
+    }
   }
-  
-  /* Define CSS classes for user and bot messages */
-  .user {
-    background-color: #a6b4bd;
-    color: white;
-    text-align: left;
-    margin-top: 15px;
-    margin-left: 10%;
-    text-decoration: solid;
-    padding: 6px;
-  }
-  
+
+  .user,
   .bot {
-    background-color: #93beb3;
-    text-decoration: solid;
-    color: white;
-    text-align: left;
-    margin-top: 15px;
-    margin-right: 10%;
-    padding: 6px;
+    margin-left: 0; /* Center-align messages on mobile */
+    margin-right: 0;
   }
-  
+}
