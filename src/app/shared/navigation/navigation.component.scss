@@ -313,4 +313,24 @@ nav.drown ul li a:hover:before {
   }
 }
 
-/* By Dominik Biedebach @domobch */
+@media screen and (max-width: 768px) {
+  /* Mobile-specific CSS styles go here */
+
+  nav ul {
+    text-align: center;
+    margin-top: 10px; /* Add margin to center-align the list items */
+    margin-left: -25px;
+   
+  }
+
+  nav ul li {
+    display: inline-block; /* Display list items inline */
+    font-size: 15px;
+    margin: 5px -0px; /* Add margin between list items on mobile */
+    padding-bottom: 12px;
+  }
+
+  nav ul li a {
+    padding: 1px; /* Adjust padding for mobile navigation items */
+  }
+}

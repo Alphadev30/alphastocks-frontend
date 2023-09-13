@@ -162,10 +162,11 @@ a {
 .content {
   background-color: rgb(255, 255, 255);
 
+
   .intro {
     text-align: center;
     background-color: #fafafa;
-    padding: 10rem 0; // Increased padding for more spacing
+    padding: 10rem 0rem; // Increased padding for more spacing
 
     margin-top: -20px;
 
@@ -212,6 +213,7 @@ a {
   margin: 5em 0em;
   margin-bottom: 10em;
 
+
   h3 {
     display: flex;
     justify-content: center;
@@ -239,12 +241,10 @@ a {
 
   ol {
     display: flex;
+    flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
     justify-content: center;
-    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-    gap: 2rem;
     list-style: none;
     counter-reset: count;
-
   }
 
   /* card layout/styling */
@@ -372,6 +372,26 @@ a {
       }
     }
   }
+
+
+
+  .info-cards {
+    h3 {
+      font-size: 24px; /* Decrease font size for h3 on smaller screens */
+    }
+
+    ol > li {
+      padding: 1rem; /* Reduce card padding for mobile spacing */
+    }
+
+    /* Add more specific mobile styles here if needed */
+  }
+
+  .content .intro{
+    padding: 5rem 2rem;
+  }
+
+  
 }
 
 /* MEDIA QUERIES */

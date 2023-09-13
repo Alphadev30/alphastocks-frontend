@@ -14,13 +14,12 @@
 }
 
 .news-table {
-    width: 100%;
     border-collapse: collapse;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
     margin: 0px auto;
-    width: 98%;
+    width: 90%;
   }
 
   .news-table tbody tr:hover {
@@ -101,21 +100,27 @@
 
 /* Responsive styles */
 @media screen and (max-width: 768px) {
-    .navbar {
-        .nav-container {
-            .logo {
-                font-size: 1.5rem;
-            }
 
-            .nav-links {
-                li {
-                    margin-left: 1.5rem;
+  .header {
 
-                    a {
-                        font-size: 1rem;
-                    }
-                }
-            }
-        }
+    padding: 2rem 0;
+    margin: 1rem auto;
+
+    h1 {
+        font-size: 1.5rem;
     }
+}
+  .news-table {
+    font-size: 12px;
+    max-width: 90%;
+  }
+
+
+  .pagination {
+    margin: 3em 0;
+    button {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.8rem;
+    }
+  }
 }
