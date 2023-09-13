@@ -1,6 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { environment } from 'src/enironments/environment';
+import { keypair } from 'src/enironments/keypairs';
 
 @Component({
   selector: 'app-technical-dashboard',
@@ -93,8 +94,12 @@ export class TechnicalDashboardComponent {
     const getMaCrossoverAPI = environment.getMacdCross;
     const params = new HttpParams().set('fastlength', this.macdFastLength).set('slowlength', this.macdSlowLength).set('signallength', this.macdSignalLength).set('TimeFrame', '' + this.selectedTimeframe);
     this.isLoading = true;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: keypair.technicalKey,
+    });
 
-    this.http.get(getMaCrossoverAPI, { params }).subscribe(
+    this.http.get(getMaCrossoverAPI, {headers, params }).subscribe(
       (response: any) => {
         this.macdFilteredStocks = response;
         this.showMacdTab();
@@ -113,9 +118,13 @@ export class TechnicalDashboardComponent {
     console.log("running ma : ")
     const getMaCrossoverAPI = environment.getMaCross;
     const params = new HttpParams().set('shortma', this.shortMa).set('longma', this.longMa).set('TimeFrame', '' + this.selectedTimeframe);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: keypair.technicalKey,
+    });
     this.isLoading = true;
 
-    this.http.get(getMaCrossoverAPI, { params }).subscribe(
+    this.http.get(getMaCrossoverAPI, { headers, params }).subscribe(
       (response: any) => {
         this.maFilteredStocks = response;
         this.showMaTab();
@@ -168,11 +177,11 @@ export class TechnicalDashboardComponent {
 
     let interval = "weeks";
 
-    if(this.selectedTimeframe == '1D' || this.selectedTimeframe == '1d'){
+    if (this.selectedTimeframe == '1D' || this.selectedTimeframe == '1d') {
       interval = "days"
     }
     if (this.showingMaData) {
-      this.resultMessage = "These stocks were selected based on a " + this.shortMa + "-day short-term and " + this.longMa + "-day long-term Moving Average (MA), detecting crossovers that occurred in the past 8 "+interval; 
+      this.resultMessage = "These stocks were selected based on a " + this.shortMa + "-day short-term and " + this.longMa + "-day long-term Moving Average (MA), detecting crossovers that occurred in the past 8 " + interval;
     } else {
       this.resultMessage = "These are your custom MACD-filtered stocks, detecting crossovers that occurred in the past 6 " + interval;
     }
