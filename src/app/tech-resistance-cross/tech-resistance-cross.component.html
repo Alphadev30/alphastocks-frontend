@@ -41,18 +41,11 @@
 
             <div class="tab-buttons">
                 <div class="left-buttons">
-                  <button class="button" *ngFor="let tab of tabData; let i = index"
-                    [ngClass]="{'active-btn': selectedTab === i}" (click)="selectTab(i)" (mousedown)="closeTabOnMiddleClick(i, $event)">
-                    Tab {{ i + 1 }}
-                  </button>
-                  <button class="button" (click)="addTab()">+</button>
-                  
+                    <app-tab [pageName]="localStorageKey" (currentTab)="onTabChanged($event)"
+                        (tabDataChanged)="onTabDataChanged($event)"></app-tab>
                 </div>
-                <div class="right-buttons">
-                    <button class="button filter-button mr-2" (click)="saveTabData(selectedTab)">Save</button>
-                    <button class="button" (click)="showFilterPopup()">Filters</button>
-                </div>
-              </div>
+                <button class="button filter-button" (click)="showFilterPopup()">Filters</button>
+            </div>
 
             <!-- Create a hidden filter popup -->
             <div class="filter-popup" *ngIf="showFilter">

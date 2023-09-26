@@ -1,8 +1,6 @@
-<!-- <div class="left-buttons">
-    <button class="button" *ngFor="let tab of tabData; let i = index"
-        [ngClass]="{'active-btn': selectedTab === i}" (click)="selectTab(i)"
-        (mousedown)="closeTabOnMiddleClick(i, $event)">
-        Tab {{ i + 1 }}
+<div class="left-buttons">
+    <button class="button" *ngFor="let tab of tabData; let i = index" [ngClass]="{'active-btn': selectedTab === i}"
+        (click)="selectTab(i)">
+        Setup {{ i + 1 }}
     </button>
-    <button class="button" (click)="addTab()">+</button>
-</div> -->
+</div>

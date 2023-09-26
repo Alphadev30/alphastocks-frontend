@@ -1,6 +1,6 @@
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/enironments/environment';
 import { keypair } from 'src/enironments/keypairs';
@@ -11,7 +11,7 @@ import { LocalStorageService } from '../services/localStorage/local-storage.serv
   templateUrl: './tech-ma-macd-cross.component.html',
   styleUrls: ['./tech-ma-macd-cross.component.scss']
 })
-export class TechMaMacdCrossComponent implements OnInit {
+export class TechMaMacdCrossComponent implements OnInit, OnChanges {
   maFilteredStocks: any[] = [];
   macdFilteredStocks: any[] = [];
   filteredStock: any[] = [];
@@ -59,14 +59,16 @@ export class TechMaMacdCrossComponent implements OnInit {
 
 
   // Tabs
-  // Define a data structure
   tabData: any[] = [];
   selectedTab: number = 0;
-  totalTabs = 3;
 
-  localStorageKey = 'tabDataMa';
+  localStorageKey : string = "tabDataMa";
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private localStorageService: LocalStorageService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+  }
 
   ngOnInit(): void {
 
@@ -86,80 +88,28 @@ export class TechMaMacdCrossComponent implements OnInit {
       // Use 'id' and 'name' to fetch or display data
     });
 
-
-    //this.totalTabs = this.localStorageService.getTotalItemsWithPrefix(this.localStorageKey) - 1;
-
     this.setDefaultValues();
-    this.selectTab(this.selectedTab);
-    this.loadAllTabsIfOpen();
   }
 
- // Load tabs from local storage when the component initializes
- loadAllTabsIfOpen(): void {
-  for (let i = 1; i < this.totalTabs; i++) {
-    this.addTab(); // Add a new tab for the first open tab in local storage
+  onTabChanged(tab : any) : void {
+    this.selectedTab = tab;
+    // console.log("TAb : " + this.selectedTab);
   }
-  // Select the first tab (or any default tab you prefer)
-  this.selectTab(0);
-}
 
-// Close a tab when the middle mouse button is clicked
-closeTabOnMiddleClick(tabIndex: number, event: MouseEvent): void {
-  if (event.button === 1) {
-    // Middle mouse button was clicked (event.button === 1)
-    event.preventDefault(); // Prevent the default behavior (e.g., opening a new tab)
-  //  this.closeTab(tabIndex);
+  onTabDataChanged(newData: any): void {
+    // Handle the updated tabData received from the TabComponent
+    //console.log("New data : ", newData);
+    // this.tabData = newData;
+    this.displayedStockData = newData;
   }
-}
 
-// Close a tab
-closeTab(tabIndex: number): void {
-  if (this.tabData.length > 1) {
-    localStorage.removeItem(this.localStorageKey + tabIndex); // Remove the corresponding tab data from local storage
-    this.tabData.splice(tabIndex, 1); // Remove the tab at the specified index
-    this.totalTabs--; // Decrease the totalTabs count
-    if (this.selectedTab >= this.tabData.length) {
-      this.selectTab(this.tabData.length - 1); // Select the last tab if the currently selected tab was closed
-    }
+
+  // Save tab data to local storage
+  saveTabData(tabIndex: number): void {
+    //this.tabData[tabIndex] = this.displayedStockData;
+    const dataToSave = this.displayedStockData;
+    localStorage.setItem(this.localStorageKey + tabIndex, JSON.stringify(dataToSave));
   }
-}
-
-// Select a tab
-selectTab(index: number): void {
-  this.selectedTab = index;
-  //this.saveTabData(this.selectedTab);
-  // Load data for the selected tab
-  this.loadTabData(this.selectedTab);
-  // Update displayed data to match the selected tab's data
-  this.displayedStockData = this.tabData[this.selectedTab];
-}
-
-// Add a new tab
-addTab(): void {
-  this.tabData.push([]);
-  //this.totalTabs++;
-  this.selectedTab = this.tabData.length - 1;
-  // Initialize data for the new tab
-  this.displayedStockData = this.tabData[this.selectedTab]; // Set displayed data to the new tab's data
-  //this.saveTabData(this.selectedTab);
-}
-
-// Save tab data to local storage
-saveTabData(tabIndex: number): void {
-  this.tabData[tabIndex] = this.displayedStockData;
-  const dataToSave = this.tabData[tabIndex];
-  localStorage.setItem(this.localStorageKey + tabIndex, JSON.stringify(dataToSave));
-}
-
-// Load tab data from local storage
-loadTabData(tabIndex: number): void {
-  const savedData = localStorage.getItem(this.localStorageKey + tabIndex);
-  if (savedData) {
-    this.tabData[tabIndex] = JSON.parse(savedData);
-  } else {
-    this.tabData[tabIndex] = []; // Initialize with an empty array if no data is found
-  }
-}
 
 
   runBot(): void {
@@ -173,7 +123,6 @@ loadTabData(tabIndex: number): void {
 
   findMacdCrossovers() {
 
-    console.log("running macd : ")
     const getMaCrossoverAPI = environment.getMacdCross;
     const params = new HttpParams().set('fastlength', this.macdFastLength).set('slowlength', this.macdSlowLength).set('signallength', this.macdSignalLength).set('TimeFrame', '' + this.selectedTimeframe);
     this.isLoading = true;
@@ -200,7 +149,6 @@ loadTabData(tabIndex: number): void {
   }
 
   findMaCrossovers() {
-    console.log("running ma : ")
     const getMaCrossoverAPI = environment.getMaCross;
     const params = new HttpParams().set('shortma', this.shortMa).set('longma', this.longMa).set('TimeFrame', '' + this.selectedTimeframe);
     const headers = new HttpHeaders({

@@ -90,15 +90,7 @@
                         CROSS</button>
                 </div> -->
 
-                <div class="left-buttons">
-                    <button class="button" *ngFor="let tab of tabData; let i = index"
-                        [ngClass]="{'active-btn': selectedTab === i}" (click)="selectTab(i)"
-                        (mousedown)="closeTabOnMiddleClick(i, $event)">
-                        Tab {{ i + 1 }}
-                    </button>
-                    <button class="button" (click)="addTab()">+</button>
-                </div>
-
+                <app-tab [pageName]="localStorageKey" (currentTab) = "onTabChanged($event)" (tabDataChanged)="onTabDataChanged($event)"></app-tab>
                 <button class="button filter-button" (click)="showFilterPopup()">Filters</button>
 
             </div>

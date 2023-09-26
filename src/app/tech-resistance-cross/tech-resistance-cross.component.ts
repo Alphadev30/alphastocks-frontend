@@ -40,12 +40,6 @@ export class TechResistanceCrossComponent implements OnInit {
   filteredStockData: any[] = []; // Initialize this as an empty array
 
 
-  // Tabs
-  // Define a data structure
-  tabData: any[] = [];
-  selectedTab: number = 0;
-  totalTabs = 0;
-
   // Bar Charts
   public resultData = [
     { name: 'Company A', value1: 65, value2: 80, value3: 45 },
@@ -53,91 +47,39 @@ export class TechResistanceCrossComponent implements OnInit {
     // Add more data objects as needed
   ];
 
+   // Tabs
+   tabData: any[] = [];
+   selectedTab: number = 0;
+ 
+   localStorageKey : string = "tabDataRes_";
+
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
     //localStorage.clear();
-    this.totalTabs = this.localStorageService.getTotalItemsWithPrefix('tabDataRes_');
 
     this.setDefaultValues();
-    this.selectTab(this.selectedTab);
-    this.loadAllTabsIfOpen();
+
   }
 
-  loadAllTabsIfOpen(): void {
-    for (let i = 0; i < this.totalTabs; i++) {
-      const savedData = localStorage.getItem(`tabDataRes_${i}`);
-      if (savedData) {
-        this.tabData[i] = JSON.parse(savedData);
-        this.addTab(); // Add a new tab for each open tab in local storage
-      }
-    }
-    // Select the first tab (or any default tab you prefer)
-    this.selectTab(0);
+  onTabChanged(tab : any) : void {
+    this.selectedTab = tab;
   }
 
-  closeTabOnMiddleClick(tabIndex: number, event: MouseEvent): void {
-    if (event.button === 1) {
-      // Middle mouse button was clicked (event.button === 1)
-      event.preventDefault(); // Prevent the default behavior (e.g., opening a new tab)
-      this.closeTab(tabIndex);
-    }
-  }
-  
-  closeTab(tabIndex: number): void {
-    if (this.tabData.length > 1) {
-      this.tabData.splice(tabIndex, 1); // Remove the tab at the specified index
-      localStorage.removeItem(`tabDataRes_${tabIndex}`); // Remove the corresponding tab data from local storage
-      if (this.selectedTab >= this.tabData.length) {
-        this.selectTab(this.tabData.length - 1); // Select the last tab if the currently selected tab was closed
-      }
-    }
-  }
-  
-
-
-  selectTab(index: number): void {
-    console.log("1) selected Tab : ", index);
-    this.selectedTab = index;
-    // Load data for the selected tab
-    this.loadTabData(this.selectedTab);
-    // Update displayed data to match the selected tab's data
-    this.displayedStockData = this.tabData[this.selectedTab];
-
-    console.log("3) displayedStockData : ", this.displayedStockData);
+  onTabDataChanged(newData: any): void {
+    // Handle the updated tabData received from the TabComponent
+    this.displayedStockData = newData;
   }
 
-  addTab(): void {
-    this.tabData.push([]);
-    console.log("---> new tab added : ", this.tabData);
 
-    this.selectedTab = this.tabData.length - 1;
-    // Initialize data for the new tab
-    this.displayedStockData = this.tabData[this.selectedTab]; // Set displayed data to the new tab's data
-    console.log("----> displayedStockData in new tab : ", this.displayedStockData);
-    this.loadTabData(this.selectedTab);
-    this.saveTabData(this.selectedTab);
-  }
-
+  // Save tab data to local storage
   saveTabData(tabIndex: number): void {
-    this.tabData[tabIndex] = this.displayedStockData;
-    const dataToSave = this.tabData[tabIndex];
+    //this.tabData[tabIndex] = this.displayedStockData;
+    const dataToSave = this.displayedStockData;
+    localStorage.setItem(this.localStorageKey + tabIndex, JSON.stringify(dataToSave));
+  }
+
   
-    localStorage.setItem(`tabDataRes_${tabIndex}`, JSON.stringify(dataToSave));
-    console.log("data saved : ", localStorage.getItem(`tabDataRes_${tabIndex}`));
-  }
-
-  loadTabData(tabIndex: number): void {
-    
-    const savedData = localStorage.getItem(`tabDataRes_${tabIndex}`);
-    console.log("2) loadTabData : ", savedData);
-
-    if (savedData) {
-      this.tabData[tabIndex] = JSON.parse(savedData);
-    } else {
-      this.tabData[tabIndex] = []; // Initialize with an empty array if no data is found
-    }
-  }
 
 
   runBot(): void {
