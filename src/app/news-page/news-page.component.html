@@ -13,7 +13,7 @@
                     <th>News</th>
                     <th>Sentiment</th>
                     <th class="d-none d-sm-block">AI Analysis</th>
-                    <th class="d-none d-sm-block">Date</th>
+                    <th class="">Date</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -22,7 +22,7 @@
                         <td>{{ newsItem.news.title  }}</td>
                         <td><u>{{ newsItem.sentiment }}</u></td>
                         <td class="d-none d-sm-block">{{ newsItem.analysis | truncate: 14 }}</td>
-                        <td class="d-none d-sm-block">{{ newsItem.news.date| date}}</td>
+                        <td class="">{{ newsItem.news.date| date}}</td>
                       </tr>
                 </tbody>
               </table>

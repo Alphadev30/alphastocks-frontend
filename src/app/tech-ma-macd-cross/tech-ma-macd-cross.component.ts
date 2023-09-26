@@ -1,19 +1,17 @@
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/enironments/environment';
 import { keypair } from 'src/enironments/keypairs';
+import { LocalStorageService } from '../services/localStorage/local-storage.service';
 
 @Component({
-  selector: 'app-technical-dashboard',
-  templateUrl: './technical-dashboard.component.html',
-  styleUrls: ['./technical-dashboard.component.scss']
+  selector: 'app-tech-ma-macd-cross',
+  templateUrl: './tech-ma-macd-cross.component.html',
+  styleUrls: ['./tech-ma-macd-cross.component.scss']
 })
-export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
-
-  @ViewChild('typingElement', { static: true }) typingElement!: ElementRef;
-
-
+export class TechMaMacdCrossComponent implements OnInit {
   maFilteredStocks: any[] = [];
   macdFilteredStocks: any[] = [];
   filteredStock: any[] = [];
@@ -30,7 +28,7 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
   // Candlestick Timeframe
   selectedTimeframe: string = '1wk';
 
-  resultMessage: string = "Fine-tune settings and discover NSE stocks showing recent MA and MACD crossovers among 300+ companies analyzed by our bot.";
+  resultMessage: string = "";
 
   isLoading = false;
   showingMaData = true;
@@ -59,33 +57,109 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
     // Add more data objects as needed
   ];
 
-  constructor(private http: HttpClient, private router: Router) { }
+
+  // Tabs
+  // Define a data structure
+  tabData: any[] = [];
+  selectedTab: number = 0;
+  totalTabs = 3;
+
+  localStorageKey = 'tabDataMa';
+
+  constructor(private http: HttpClient, private route: ActivatedRoute, private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
 
-    this.setDefaultValues();
+    //localStorage.clear();
 
-    const bannerHeading = this.typingElement.nativeElement;
-    const text = "Where Data Drives Your Investment Strategy";
-    let index = 0;
+    let routeId;
 
-    function type() {
-      if (index < text.length) {
-        bannerHeading.textContent += text.charAt(index);
-        index++;
-        setTimeout(type, 55); // Adjust typing speed here (in milliseconds)
+    this.route.params.subscribe(params => {
+      routeId = params['id'];
+      this.localStorageKey = this.localStorageKey + routeId + '_';
+      if (routeId == 0) {
+        this.showingMaData = true;
+      } else {
+        this.showingMaData = false;
+
       }
+      // Use 'id' and 'name' to fetch or display data
+    });
+
+
+    //this.totalTabs = this.localStorageService.getTotalItemsWithPrefix(this.localStorageKey) - 1;
+
+    this.setDefaultValues();
+    this.selectTab(this.selectedTab);
+    this.loadAllTabsIfOpen();
+  }
+
+ // Load tabs from local storage when the component initializes
+ loadAllTabsIfOpen(): void {
+  for (let i = 1; i < this.totalTabs; i++) {
+    this.addTab(); // Add a new tab for the first open tab in local storage
+  }
+  // Select the first tab (or any default tab you prefer)
+  this.selectTab(0);
+}
+
+// Close a tab when the middle mouse button is clicked
+closeTabOnMiddleClick(tabIndex: number, event: MouseEvent): void {
+  if (event.button === 1) {
+    // Middle mouse button was clicked (event.button === 1)
+    event.preventDefault(); // Prevent the default behavior (e.g., opening a new tab)
+  //  this.closeTab(tabIndex);
+  }
+}
+
+// Close a tab
+closeTab(tabIndex: number): void {
+  if (this.tabData.length > 1) {
+    localStorage.removeItem(this.localStorageKey + tabIndex); // Remove the corresponding tab data from local storage
+    this.tabData.splice(tabIndex, 1); // Remove the tab at the specified index
+    this.totalTabs--; // Decrease the totalTabs count
+    if (this.selectedTab >= this.tabData.length) {
+      this.selectTab(this.tabData.length - 1); // Select the last tab if the currently selected tab was closed
     }
-
-    type();
   }
+}
 
-  ngAfterViewInit(): void {
+// Select a tab
+selectTab(index: number): void {
+  this.selectedTab = index;
+  //this.saveTabData(this.selectedTab);
+  // Load data for the selected tab
+  this.loadTabData(this.selectedTab);
+  // Update displayed data to match the selected tab's data
+  this.displayedStockData = this.tabData[this.selectedTab];
+}
+
+// Add a new tab
+addTab(): void {
+  this.tabData.push([]);
+  //this.totalTabs++;
+  this.selectedTab = this.tabData.length - 1;
+  // Initialize data for the new tab
+  this.displayedStockData = this.tabData[this.selectedTab]; // Set displayed data to the new tab's data
+  //this.saveTabData(this.selectedTab);
+}
+
+// Save tab data to local storage
+saveTabData(tabIndex: number): void {
+  this.tabData[tabIndex] = this.displayedStockData;
+  const dataToSave = this.tabData[tabIndex];
+  localStorage.setItem(this.localStorageKey + tabIndex, JSON.stringify(dataToSave));
+}
+
+// Load tab data from local storage
+loadTabData(tabIndex: number): void {
+  const savedData = localStorage.getItem(this.localStorageKey + tabIndex);
+  if (savedData) {
+    this.tabData[tabIndex] = JSON.parse(savedData);
+  } else {
+    this.tabData[tabIndex] = []; // Initialize with an empty array if no data is found
   }
-
-
-
-
+}
 
 
   runBot(): void {
@@ -114,6 +188,8 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
         this.showMacdTab();
         this.updateDisplayedContent();
         this.isLoading = false;
+        this.saveTabData(this.selectedTab);
+
       },
       (error) => {
         console.error('Error fetching macd data:', error);
@@ -139,6 +215,8 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
         this.showMaTab();
         this.updateDisplayedContent();
         this.isLoading = false;
+        this.saveTabData(this.selectedTab);
+
       },
       (error) => {
         console.error('Error fetching ma data:', error);
@@ -160,7 +238,6 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
     this.macdSignalLength = 8;
     this.selectedTimeframe = '1wk'
 
-    this.resultMessage = "Fine-tune settings and discover NSE stocks showing recent MA and MACD crossovers among 300+ companies analyzed by our bot."
   }
 
   showMacdTab() {
@@ -214,7 +291,6 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     //let stockData = this.filteredStock.slice();
     this.originalStockData = this.filteredStock.slice(startIndex, startIndex + this.itemsPerPage);
-
     this.displayedStockData = this.originalStockData
   }
 
@@ -300,27 +376,4 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
     // Close the filter popup
     this.closeFilterPopup();
   }
-
-  navigateToResistance() {
-    this.router.navigate(['/dashboard/resistance']);
-  }
-
-  navigateToMovingAverage(id: any) {
-    console.log(id)
-    //this.router.navigate(['/dashboard/momentum']);
-
-    // Define the route and parameters
-    const route = ['/dashboard/momentum', id];
-
-    // Create the URL tree with the route and parameters
-    const urlTree = this.router.createUrlTree(route);
-
-    // Serialize the URL tree to a string
-    const url = this.router.serializeUrl(urlTree);
-
-    // Navigate to the generated URL
-    this.router.navigateByUrl(url);
-  }
-
 }
-

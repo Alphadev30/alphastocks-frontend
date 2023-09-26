@@ -6,6 +6,8 @@ import { NewsPopupComponent } from './news-popup/news-popup.component'; // Impor
 import { SentimentAnalysisComponent } from './sentiment-analysis/sentiment-analysis.component';
 import { TechnicalDashboardComponent } from './technical-dashboard/technical-dashboard.component';
 import { DocumentationComponent } from './documentation/documentation.component';
+import { TechResistanceCrossComponent } from './tech-resistance-cross/tech-resistance-cross.component';
+import { TechMaMacdCrossComponent } from './tech-ma-macd-cross/tech-ma-macd-cross.component';
 
 
 
@@ -16,7 +18,9 @@ const routes: Routes = [
   { path: 'popup', component: NewsPopupComponent }, // Add a route for the Popup Component
   { path: 'chat', component : SentimentAnalysisComponent },
   { path: 'dashboard', component : TechnicalDashboardComponent}, 
-  { path: 'documentation', component: DocumentationComponent }
+  { path: 'documentation', component: DocumentationComponent },
+  { path: 'dashboard/resistance', component: TechResistanceCrossComponent },
+  { path: 'dashboard/momentum/:id', component: TechMaMacdCrossComponent }
 
 ];
 

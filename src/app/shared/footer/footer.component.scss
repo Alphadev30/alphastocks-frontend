@@ -1,31 +1,32 @@
+/* Updated CSS for the footer */
 .footer {
-    background-color: #b0c8c2;
-    color: rgb(42, 8, 8);
-    padding: 7px 0;
-    text-align: center;
+  background-color: #b0c8c2;
+  color: rgb(42, 8, 8);
+  padding: 7px 0;
+  text-align: center;
+}
 
-  }
-  
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px; /* Add padding to create space around the content */
 
-    p{
+  p {
       margin-top: 15px;
-        margin-right: 25px;
-    }
+      margin-right: 25px;
   }
-  
-  .social-icons a {
-    color: rgb(4, 0, 0);
-    margin-left: 23px;
-    font-size: 14px; /* Adjust the icon size as needed */
-    text-decoration: none;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .footer{
+}
+
+.social-icons a {
+  color: rgb(4, 0, 0);
+  margin-left: 23px;
+  font-size: 14px; /* Adjust the icon size as needed */
+  text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+  .footer {
       margin-top: 20px;
-    }
   }
+}

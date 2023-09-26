@@ -12,183 +12,92 @@
 
 
 
-    <div class="dashboard-content">
-
-        <div class="parameter-section">
-            <h2>Set Parameters</h2>
-
-            <!-- MA Crossovers -->
-            <div class="parameter-group" *ngIf="showingMaData">
-                <h3>MA Crossovers</h3>
-                <form>
-                    <div class="form-group">
-                        <label for="shortMa">Short MA:</label>
-                        <input type="number" id="shortMa" name="shortMa" [(ngModel)]="shortMa">
-                    </div>
-                    <div class="form-group">
-                        <label for="longMa">Long MA:</label>
-                        <input type="number" id="longMa" name="longMa" [(ngModel)]="longMa">
-                    </div>
-
-                </form>
+    <div class="dashboard-content mb-4 pb-4">
+        <div class="dashboard-card tile card-rect card-theme-primary ">
+            <div class="tile-content" [routerLink]="['/dashboard/momentum', 0]" >
+                <h2><b>MA Tracker</b></h2>
+                <p>Fine-tune settings and discover stocks showing recent MA crossovers</p>
             </div>
-
-            <!-- MACD Parameters -->
-            <div class="parameter-group" *ngIf="!showingMaData">
-                <h3>MACD Parameters</h3>
-                <form>
-                    <div class="form-group">
-                        <label for="macdFastLength">Fast Length:</label>
-                        <input type="number" id="macdFastLength" name="macdFastLength" [(ngModel)]="macdFastLength">
-                    </div>
-                    <div class="form-group">
-                        <label for="macdSlowLength">Slow Length:</label>
-                        <input type="number" id="macdSlowLength" name="macdSlowLength" [(ngModel)]="macdSlowLength">
-                    </div>
-                    <div class="form-group">
-                        <label for="macdSignalLength">Signal Length:</label>
-                        <input type="number" id="macdSignalLength" name="macdSignalLength"
-                            [(ngModel)]="macdSignalLength">
-                    </div>
-                </form>
-            </div>
-
-
-
-            <!-- Candlestick Timeframe -->
-            <div class="parameter-group">
-                <h3>Candlestick Timeframe</h3>
-                <form>
-                    <div class="form-group">
-                        <label for="timeframe">Select Timeframe:</label>
-                        <select id="timeframe" name="timeframe" [(ngModel)]="selectedTimeframe">
-                            <option value="1D">1 Day</option>
-                            <option value="1wk">1 Week</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-
-            <div class="submit-buttons">
-                <button class="button" (click)="setDefaultValues()">DEFAULT VALUES</button>
-                <button class="button button-primary" (click)="runBot()">RUN</button>
-            </div>
-
         </div>
 
-        <div class="results-section">
-
-            <div class="tab-buttons">
-                <div class="left-buttons">
-                    <button class="button" [ngClass]="{'active-btn': showingMaData}" (click)="showMaTab()">MA
-                        CROSS</button>
-                    <button class="button" [ngClass]="{'active-btn': !showingMaData}" (click)="showMacdTab()">MACD
-                        CROSS</button>
-                </div>
-                <button class="button filter-button" (click)="showFilterPopup()">Filters</button>
-
+        <div class="dashboard-card tile ">
+            <div class="tile-content" (click)="navigateToResistance()">
+                <h2><b>Resistance Zone</b></h2>
+                <p>Discover NSE stocks exceeding resistance</p>
             </div>
-
-            <!-- Create a hidden filter popup -->
-            <div class="filter-popup" *ngIf="showFilter">
-                <h3 class="mb-3 mt-2">Filter Options : </h3>
-                <label>
-                    <input type="checkbox" [(ngModel)]="filterOptions.volumeIncreasing"> Filter stocks with consistent
-                    volume growth over the past 3 days
-                </label>
-                <label>
-                    <input type="checkbox" [(ngModel)]="filterOptions.todayVolumeGreaterThanAvg"> Filter stocks with
-                    today's volume exceeding the one-week average
-                </label>
-                <label>
-                    <input type="checkbox" [(ngModel)]="filterOptions.priceIncreasing"> Filter stocks with consistent
-                    price growth over the past 3 days
-                </label>
-                <div class="filter-buttons">
-                    <button class="button" (click)="closeFilterPopup()">Close</button>
-                    <button class="button button-primary" (click)="applyFilters()">Submit</button>
-                </div>
+        </div>
+        <div class="dashboard-card tile ">
+            <div class="tile-content" [routerLink]="['/dashboard/momentum', 1]" >
+                <h2><b>MACD Tracker</b></h2>
+                <p>Fine-tune settings and discover stocks showing recent MACD crossovers</p>
             </div>
+        </div>
 
-            <hr class="tab-hr">
+        <div class="dashboard-card  tile card-rect card-theme-secondary">
+            <div class="tile-content">
+                <h2><b>AI Analysis</b></h2>
+                <p> Enter Stock Name for Latest News, Sentiment Analysis, and AI Insights, Powered by Our Advanced Bots.</p>
+            </div>
+        </div>
+        <div class="dashboard-card tile card-rect ">
+            <div class="tile-content">
+                <h2><b>Bollinger Bands</b></h2>
+                <p>Monitors volatility using Bollinger Bands to predict potential price breakouts.</p>
+            </div>
+        </div>
 
-            <h2>{{ resultMessage }}</h2>
+        <div class="dashboard-card tile card-theme-secondary">
+            <div class="tile-content">
+                <h2><b>Stochastic Bots</b></h2>
+                <p>Detects overbought/oversold conditions and trend reversals using Stochastic Oscillator.</p>
+            </div>
+        </div>
+        <div class="dashboard-card tile">
+            <div class="tile-content">
+                <h2><b>ADX Bot</b></h2>
+                <p>Measures trend strength using Average Directional Index (ADX) for trend-following strategies</p>
+            </div>
+        </div>
 
+        <div class="dashboard-card tile card-theme-primary">
+            <div class="tile-content">
+                <h2><b>Candlestick Bot</b></h2>
+                <p>Recognizes candlestick patterns like doji, engulfing, and hammers for trend reversal signals.</p>
+            </div>
+        </div>
 
+        <div class="dashboard-card tile ">
+            <div class="tile-content">
+                <h2><b>Volatility Bot</b></h2>
+                <p>Pinpoints highly volatile stocks, crucial for day trading or options strategies.</p>
+            </div>
+        </div>
 
+        <div class="dashboard-card tile card-rect card-theme-primary">
+            <div class="tile-content">
+                <h2><b>Seasonality Bot</b></h2>
+                <p>Identify seasonal patterns in stock prices based on historical trends during specific times.</p>
+            </div>
+        </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Stock Name</th>
-                        <th>Current Price</th>
-                        <th>% Change <span *ngIf="selectedTimeframe == '1wk'">( Weekly )</span><span *ngIf="selectedTimeframe == '1D'">( Daily )</span></th>
-                        <th>Volume - 3 days</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let stock of displayedStockData; let i = index">
-                        <td>{{ stock.symbol }}</td>
-                        <td>{{ stock.price.today | number:'1.0-0' }}
+        <div class="dashboard-card tile card-rect card-theme-primary">
+            <div class="tile-content">
+                <h2><b>News Analysis</b></h2>
+                <p>Lorem ipsum dolor asdasw sit iunommodi quo officia pariatur quis corporis tempora vero est ipsa quod facere. Ut, eaque ab? Distinctio, id!</p>
+            </div>
+        </div>
 
-                        </td>
-                        <td [ngStyle]="{'color': getPercentageChangeColor(stock.price.today, stock.price.oneDayPrior)}">
-                            {{ calculatePercentageChange(stock.price.today, stock.price.oneDayPrior) }}
-                        </td>
-                        <td>
-                            <div class="bar-chart">
-                                <app-bar-chart
-                                    [chartData]="[stock.volume.twoDayPrior, stock.volume.oneDayPrior, stock.volume.today]"
-                                    [chartLabels]="['', '', '']"></app-bar-chart>
-                            </div>
-                        </td>
+        <div class="dashboard-card tile">
+            <div class="tile-content">
+                <h2><b>RSI Bot</b></h2>
+                <p>Identifies overbought and oversold conditions.</p>
+            </div>
+        </div>
 
-
-
-
-
-
-                    </tr>
-
-                    <tr class="d-none">
-                        <td>IGL</td>
-                        <td>482
-        
-                        </td>
-                        <td>
-                            2.4%
-                        </td>
-                        <td>
-                            <div class="bar-chart">
-                                <app-bar-chart [chartData]="[10,38, 20]" [chartLabels]="['', '', '']"></app-bar-chart>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr class="d-none">
-                        <td>TCS</td>
-                        <td>4820
-            
-                        </td>
-                        <td>
-                            -2.2%
-                        </td>
-                        <td>
-                            <div class="bar-chart">
-                                <app-bar-chart [chartData]="[10,58, 19]" [chartLabels]="['', '', '']"></app-bar-chart>
-                            </div>
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-
-
-
-
-            <div class="pagination">
-                <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
-                <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+        <div class="dashboard-card tile card-theme-secondary">
+            <div class="tile-content">
+                <h2><b>Volume Analysis</b></h2>
+                <p>This bot can analyze trading volume to identify unusual volume spikes</p>
             </div>
         </div>
     </div>

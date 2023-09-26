@@ -22,7 +22,11 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { SentimentAnalysisComponent } from './sentiment-analysis/sentiment-analysis.component';
 import { TechnicalDashboardComponent } from './technical-dashboard/technical-dashboard.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
-import { DocumentationComponent } from './documentation/documentation.component'
+import { DocumentationComponent } from './documentation/documentation.component';
+import { TechResistanceCrossComponent } from './tech-resistance-cross/tech-resistance-cross.component'
+import { OneDecimalPlacePipe } from './decimal.pipe';
+import { TechMaMacdCrossComponent } from './tech-ma-macd-cross/tech-ma-macd-cross.component';
+import { TabComponent } from './tab/tab.component';
 
 
 @NgModule({
@@ -34,11 +38,15 @@ import { DocumentationComponent } from './documentation/documentation.component'
     NavigationComponent,
     NewsPopupComponent,
     TruncatePipe,
+    OneDecimalPlacePipe,
     FooterComponent,
     SentimentAnalysisComponent,
     TechnicalDashboardComponent,
     BarChartComponent,
     DocumentationComponent,
+    TechResistanceCrossComponent,
+    TechMaMacdCrossComponent,
+    TabComponent,
   ],
   imports: [
     BrowserModule,
