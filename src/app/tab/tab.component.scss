@@ -1,0 +1,17 @@
+.button {
+    border: none;
+    border-radius: 0;
+}
+
+.active-btn {
+    background-color: #b4bec5;
+    border: 3cap solid rgb(169, 156, 156);
+    border-bottom: none;
+}
+
+
+
+.left-buttons {
+    display: flex;
+    gap: 1px;
+}

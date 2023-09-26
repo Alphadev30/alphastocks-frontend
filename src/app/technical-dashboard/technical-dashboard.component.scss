@@ -20,97 +20,64 @@
 
     .dashboard-content {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
+        align-items: center;
         flex-wrap: wrap;
+        width: 1340px;
+
+        margin: 0 auto;
     }
 
-    .parameter-section {
-        width: 22.5%;
-        background-color: white;
+    .dashboard-card {
+        background-color: #fff;
         padding: 20px;
-        border-radius: 3px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-        margin-top: 20px;
+        margin: 3px;
+        text-align: center;
+        width: 210px;
+        height: 210px;
+        transition: transform 0.1s; /* Add a smooth transition effect */
+        cursor: pointer;
 
-        h2 {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
+    }
+    .dashboard-card:hover {
+        transform: scale(1.1); /* Scale the card by 10% on hover */
+      }
 
-        .parameter-group {
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            padding: 10px;
-            margin-bottom: 15px;
-
-            h3 {
-                font-size: 16px;
-                margin-top: 0;
-            }
-
-            .form-group {
-                margin-bottom: 15px;
-            }
-
-            label {
-                font-weight: bold;
-                display: block;
-                margin-bottom: 5px;
-            }
-
-            input[type="number"],
-            select {
-                width: 100%;
-                padding: 8px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-            }
-        }
+    .card-rect {
+        width: 420px;
+        padding: 20px 50px;
+        
     }
 
-    .results-section {
-        width: 75%;
-        background-color: white;
-        padding: 20px;
-        border-radius: 3px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-        margin-top: 20px;
-
-        h2 {
-            font-size: 24px;
-            margin: 45px 0px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-
-            th,
-            td {
-                padding: 10px;
-                text-align: center;
-
-                span{
-                    font-size: 12px;
-                    margin-left: 5px;
-                }
-            }
-
-            th {
-                background-color: #cbdfda;
-            }
-
-            tbody tr:nth-child(even) {
-                background-color: #f2f2f2;
-            }
-
-            tbody tr:hover {
-                background-color: #cbdfda;
-                cursor: pointer;
-            }
-        }
+    .card-theme-primary {
+        background-color: #f5f5f5;
     }
+
+    .card-theme-secondary {
+        background-color: #e5dcdc;
+    }
+
+    .tile-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tile-content h2 {
+        font-size: 21px;
+    }
+
+    .tile-content p {
+        font-size: 17px;
+        color: #666;
+        margin-top: 8px
+    }
+
+
+    .slide-in {
+        transform: translateX(100%); /* Initial position: slide from the right */
+      }
+
 
     /* Center the loading container */
     .loading-container {
@@ -156,149 +123,6 @@
         animation: spin 2s linear infinite;
     }
 
-    .submit-buttons {
-        display: flex;
-        flex-direction: row;
-        gap: 15px;
-
-        .button {
-            width: 250px;
-        }
-
-        .button-primary {
-            width: 125px;
-        }
-    }
-
-    .tab-buttons {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 0;
-        padding: 0;
-
-        .button {
-            border: none;
-            border-radius: 0;
-        }
-
-        .active-btn {
-            background-color: #b4bec5;
-            border: 3cap solid rgb(169, 156, 156);
-            border-bottom: none;
-        }
-
-
-
-        .left-buttons {
-            display: flex;
-            gap: 1px;
-        }
-
-        .button.filter-button {
-            margin-left: auto;
-        }
-
-    }
-
-    .tab-hr {
-        margin-top: 0;
-        border: none;
-        height: 3px;
-        background-color: rgb(0, 0, 0);
-
-    }
-
-    .stick-to-right {
-        float: right;
-        width: 150px;
-    }
-
-    .pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 5em 0;
-
-        button {
-            padding: 0.5rem 1rem;
-            margin: 0 0.5rem;
-            border: none;
-            background-color: #8fa49f;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-
-            &:hover {
-                background-color: #325B51;
-            }
-
-            &:disabled {
-                background-color: #c8b9b9;
-                cursor: not-allowed;
-            }
-        }
-        
-    }
-
-    /* Style the filter popup */
-    .filter-popup {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 20px;
-        border-radius: 3px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        max-width: 400px;
-        width: 100%;
-
-
-        
-
-        h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        label {
-            margin-bottom: 10px;
-        }
-
-        .filter-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-
-            .button {
-                width: 48%;
-            }
-        }
-    }
-
-    /* Style the filter button */
-    .button.filter-button {
-        /* Add your styles for the filter button here */
-    }
-
-    .bar-chart{
-       
-        padding: 10px;
-        margin-left: 32%;
-        margin : 10px auto;
-        margin-bottom: 15px;
-        width: 80px;
-        color: black;
-    }
-
-
-
-
     /* Add a simple spin animation */
     @keyframes spin {
         0% {
@@ -314,53 +138,35 @@
 }
 
 
-  
-  /* Small screens (mobile devices) */
-  @media screen and (max-width: 767px) {
+
+/* Small screens (mobile devices) */
+@media screen and (max-width: 767px) {
     .dashboard-container {
-      h1 {
-        font-size: 30px;
-        margin-top: 60px;
-      }
-      
-      p {
-        font-size: 16px;
-        margin-bottom: 40px;
-      }
-      
-      .parameter-section, .results-section {
-        width: 100%;
-        margin-top: 20px;
-      }
-      
-      .parameter-group {
-        margin-bottom: 10px;
-      }
+        h1 {
+            font-size: 30px;
+            margin-top: 60px;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+
     }
 
-    .tab-buttons {
-        flex-direction: column;
-        .button {
-          width: 100%;
-          margin: 5px 0;
-        }
-      }
 
-      .loading-container {
+    .loading-container {
         display: flex;
         flex-direction: column;
 
-        h3{
+        h3 {
             text-align: center;
             margin-bottom: 30px;
         }
-       
-      }
-    
-      .filter-popup {
-        max-width: 80%;
-      }
+
+    }
 
 
-  }
-  
+
+}

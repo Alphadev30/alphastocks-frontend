@@ -1,19 +1,17 @@
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/enironments/environment';
 import { keypair } from 'src/enironments/keypairs';
+import { LocalStorageService } from '../services/localStorage/local-storage.service';
 
 @Component({
-  selector: 'app-technical-dashboard',
-  templateUrl: './technical-dashboard.component.html',
-  styleUrls: ['./technical-dashboard.component.scss']
+  selector: 'app-tech-ma-macd-cross',
+  templateUrl: './tech-ma-macd-cross.component.html',
+  styleUrls: ['./tech-ma-macd-cross.component.scss']
 })
-export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
-
-  @ViewChild('typingElement', { static: true }) typingElement!: ElementRef;
-
-
+export class TechMaMacdCrossComponent implements OnInit, OnChanges {
   maFilteredStocks: any[] = [];
   macdFilteredStocks: any[] = [];
   filteredStock: any[] = [];
@@ -30,7 +28,7 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
   // Candlestick Timeframe
   selectedTimeframe: string = '1wk';
 
-  resultMessage: string = "Fine-tune settings and discover NSE stocks showing recent MA and MACD crossovers among 300+ companies analyzed by our bot.";
+  resultMessage: string = "";
 
   isLoading = false;
   showingMaData = true;
@@ -59,33 +57,59 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
     // Add more data objects as needed
   ];
 
-  constructor(private http: HttpClient, private router: Router) { }
+
+  // Tabs
+  tabData: any[] = [];
+  selectedTab: number = 0;
+
+  localStorageKey : string = "tabDataMa";
+
+  constructor(private http: HttpClient, private route: ActivatedRoute, private localStorageService: LocalStorageService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+  }
 
   ngOnInit(): void {
 
-    this.setDefaultValues();
+    //localStorage.clear();
 
-    const bannerHeading = this.typingElement.nativeElement;
-    const text = "Where Data Drives Your Investment Strategy";
-    let index = 0;
+    let routeId;
 
-    function type() {
-      if (index < text.length) {
-        bannerHeading.textContent += text.charAt(index);
-        index++;
-        setTimeout(type, 55); // Adjust typing speed here (in milliseconds)
+    this.route.params.subscribe(params => {
+      routeId = params['id'];
+      this.localStorageKey = this.localStorageKey + routeId + '_';
+      if (routeId == 0) {
+        this.showingMaData = true;
+      } else {
+        this.showingMaData = false;
+
       }
-    }
+      // Use 'id' and 'name' to fetch or display data
+    });
 
-    type();
+    this.setDefaultValues();
   }
 
-  ngAfterViewInit(): void {
+  onTabChanged(tab : any) : void {
+    this.selectedTab = tab;
+    // console.log("TAb : " + this.selectedTab);
+  }
+
+  onTabDataChanged(newData: any): void {
+    // Handle the updated tabData received from the TabComponent
+    //console.log("New data : ", newData);
+    // this.tabData = newData;
+    this.displayedStockData = newData;
   }
 
 
-
-
+  // Save tab data to local storage
+  saveTabData(tabIndex: number): void {
+    //this.tabData[tabIndex] = this.displayedStockData;
+    const dataToSave = this.displayedStockData;
+    localStorage.setItem(this.localStorageKey + tabIndex, JSON.stringify(dataToSave));
+  }
 
 
   runBot(): void {
@@ -99,7 +123,6 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
 
   findMacdCrossovers() {
 
-    console.log("running macd : ")
     const getMaCrossoverAPI = environment.getMacdCross;
     const params = new HttpParams().set('fastlength', this.macdFastLength).set('slowlength', this.macdSlowLength).set('signallength', this.macdSignalLength).set('TimeFrame', '' + this.selectedTimeframe);
     this.isLoading = true;
@@ -114,6 +137,8 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
         this.showMacdTab();
         this.updateDisplayedContent();
         this.isLoading = false;
+        this.saveTabData(this.selectedTab);
+
       },
       (error) => {
         console.error('Error fetching macd data:', error);
@@ -124,7 +149,6 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
   }
 
   findMaCrossovers() {
-    console.log("running ma : ")
     const getMaCrossoverAPI = environment.getMaCross;
     const params = new HttpParams().set('shortma', this.shortMa).set('longma', this.longMa).set('TimeFrame', '' + this.selectedTimeframe);
     const headers = new HttpHeaders({
@@ -139,6 +163,8 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
         this.showMaTab();
         this.updateDisplayedContent();
         this.isLoading = false;
+        this.saveTabData(this.selectedTab);
+
       },
       (error) => {
         console.error('Error fetching ma data:', error);
@@ -160,7 +186,6 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
     this.macdSignalLength = 8;
     this.selectedTimeframe = '1wk'
 
-    this.resultMessage = "Fine-tune settings and discover NSE stocks showing recent MA and MACD crossovers among 300+ companies analyzed by our bot."
   }
 
   showMacdTab() {
@@ -214,7 +239,6 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     //let stockData = this.filteredStock.slice();
     this.originalStockData = this.filteredStock.slice(startIndex, startIndex + this.itemsPerPage);
-
     this.displayedStockData = this.originalStockData
   }
 
@@ -300,27 +324,4 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
     // Close the filter popup
     this.closeFilterPopup();
   }
-
-  navigateToResistance() {
-    this.router.navigate(['/dashboard/resistance']);
-  }
-
-  navigateToMovingAverage(id: any) {
-    console.log(id)
-    //this.router.navigate(['/dashboard/momentum']);
-
-    // Define the route and parameters
-    const route = ['/dashboard/momentum', id];
-
-    // Create the URL tree with the route and parameters
-    const urlTree = this.router.createUrlTree(route);
-
-    // Serialize the URL tree to a string
-    const url = this.router.serializeUrl(urlTree);
-
-    // Navigate to the generated URL
-    this.router.navigateByUrl(url);
-  }
-
 }
-

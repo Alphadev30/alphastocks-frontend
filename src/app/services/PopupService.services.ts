@@ -15,11 +15,11 @@ export class PopupService {
     constructor() {}
   
     openPopup(newsItem: any) {
-      this.selectedNewsItemSubject.next(newsItem);
-      this.isOpenSubject.next(true);
+      //this.selectedNewsItemSubject.next(newsItem);
+      //this.isOpenSubject.next(true);
     }
   
     closePopup() {
-      this.isOpenSubject.next(false);
+      //this.isOpenSubject.next(false);
     }
   }
