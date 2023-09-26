@@ -10,5 +10,5 @@ export const environment = {
     // Technical APIS
     getMaCross : 'https://alpha-stocks-2-e991251132bd.herokuapp.com/analyze/ma',
     getMacdCross : 'https://alpha-stocks-2-e991251132bd.herokuapp.com/analyze/macd' ,
-    getResCross: 'http://localhost:5000/bot/resistance'
+    getResCross: 'https://alpha-stocks-2-e991251132bd.herokuapp.com/bot/resistance'
   };
