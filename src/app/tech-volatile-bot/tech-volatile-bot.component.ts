@@ -1,24 +1,25 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from '../services/localStorage/local-storage.service';
 import { environment } from 'src/enironments/environment';
 import { keypair } from 'src/enironments/keypairs';
-import { LocalStorageService } from '../services/localStorage/local-storage.service' // Adjust the path as needed
-
 
 @Component({
-  selector: 'app-tech-resistance-cross',
-  templateUrl: './tech-resistance-cross.component.html',
-  styleUrls: ['./tech-resistance-cross.component.scss']
+  selector: 'app-tech-volatile-bot',
+  templateUrl: './tech-volatile-bot.component.html',
+  styleUrls: ['./tech-volatile-bot.component.scss']
 })
-export class TechResistanceCrossComponent implements OnInit {
+export class TechVolatileBotComponent  implements OnInit {
 
-  resFilteredStocks: any[] = [];
+  bollingerFilteredStocks: any[] = [];
   filteredStock: any[] = [];
+
+  period = 30;
 
   // Candlestick Timeframe
   selectedTimeframe: string = '1wk';
 
-  resultMessage: string = "Discover NSE stocks exceeding resistance among 300+ companies analyzed by our bot, adjusted to your time interval.";
+  resultMessage: string = "Explore NSE stock volatility across 300+ companies, tailored to your selected time interval";
 
   isLoading = false;
   showingMaData = true;
@@ -51,7 +52,7 @@ export class TechResistanceCrossComponent implements OnInit {
    tabData: any[] = [];
    selectedTab: number = 0;
  
-   localStorageKey : string = "tabDataRes_";
+   localStorageKey : string = "tabDataVolatile_";
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
 
@@ -83,23 +84,24 @@ export class TechResistanceCrossComponent implements OnInit {
 
 
   runBot(): void {
-    this.findResistanceCross();
+    this.findVolatility();
   }
 
-  findResistanceCross() {
+  findVolatility() {
 
-    console.log("running resistance : ")
-    const getResCrossoverAPI = environment.getResCross;
-    const params = new HttpParams().set('TimeFrame', '' + this.selectedTimeframe.toLowerCase());
+
+    const getVolatileAPI = environment.getVolatility;
+    console.log(this.selectedTimeframe)
+    const params = new HttpParams().set('period', this.period).set('TimeFrame', '' + this.selectedTimeframe.toLowerCase());
     this.isLoading = true;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: keypair.technicalKey,
     });
 
-    this.http.get(getResCrossoverAPI, { headers, params }).subscribe(
+    this.http.get(getVolatileAPI, { headers, params }).subscribe(
       (response: any) => {
-        this.resFilteredStocks = response;
+        this.bollingerFilteredStocks = response;
         this.showResTab();
         this.updateDisplayedContent();
         //this.addTab();
@@ -116,9 +118,8 @@ export class TechResistanceCrossComponent implements OnInit {
 
 
   showResTab() {
-    this.totalPages = Math.ceil(this.resFilteredStocks.length / this.itemsPerPage);
-    this.filteredStock = this.resFilteredStocks;
-    this.showingMaData = false;
+    this.totalPages = Math.ceil(this.bollingerFilteredStocks.length / this.itemsPerPage);
+    this.filteredStock = this.bollingerFilteredStocks;
     this.setResultMessage();
     this.currentPage = 1;
     this.updateDisplayedContent();
@@ -143,7 +144,7 @@ export class TechResistanceCrossComponent implements OnInit {
       interval = "days"
     }
 
-    this.resultMessage = "The current price exceeds the resistance level and is just 2% higher than the resistance for these stocks | Fibonacci retracement | Timeframe: " + interval;
+    this.resultMessage = "Stocks categorized by volatility: Low, Moderate, and High.";
 
   }
 
@@ -251,5 +252,4 @@ export class TechResistanceCrossComponent implements OnInit {
     // Close the filter popup
     this.closeFilterPopup();
   }
-
 }

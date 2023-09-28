@@ -28,6 +28,7 @@ import { OneDecimalPlacePipe } from './decimal.pipe';
 import { TechMaMacdCrossComponent } from './tech-ma-macd-cross/tech-ma-macd-cross.component';
 import { TabComponent } from './tab/tab.component';
 import { TechBollingerBandsComponent } from './tech-bollinger-bands/tech-bollinger-bands.component';
+import { TechVolatileBotComponent } from './tech-volatile-bot/tech-volatile-bot.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { TechBollingerBandsComponent } from './tech-bollinger-bands/tech-bolling
     TechMaMacdCrossComponent,
     TabComponent,
     TechBollingerBandsComponent,
+    TechVolatileBotComponent,
   ],
   imports: [
     BrowserModule,

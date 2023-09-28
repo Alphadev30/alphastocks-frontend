@@ -326,5 +326,9 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/dashboard/bollinger']);
   }
 
+  navigateToVolatility() {
+    this.router.navigate(['/dashboard/volatile']);
+  }
+
 }
 
