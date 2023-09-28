@@ -124,7 +124,7 @@ export class TechMaMacdCrossComponent implements OnInit, OnChanges {
   findMacdCrossovers() {
 
     const getMaCrossoverAPI = environment.getMacdCross;
-    const params = new HttpParams().set('fastlength', this.macdFastLength).set('slowlength', this.macdSlowLength).set('signallength', this.macdSignalLength).set('TimeFrame', '' + this.selectedTimeframe);
+    const params = new HttpParams().set('fastlength', this.macdFastLength).set('slowlength', this.macdSlowLength).set('signallength', this.macdSignalLength).set('TimeFrame', '' + this.selectedTimeframe.toLowerCase());
     this.isLoading = true;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -150,7 +150,7 @@ export class TechMaMacdCrossComponent implements OnInit, OnChanges {
 
   findMaCrossovers() {
     const getMaCrossoverAPI = environment.getMaCross;
-    const params = new HttpParams().set('shortma', this.shortMa).set('longma', this.longMa).set('TimeFrame', '' + this.selectedTimeframe);
+    const params = new HttpParams().set('shortma', this.shortMa).set('longma', this.longMa).set('TimeFrame', '' + this.selectedTimeframe.toLowerCase());
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: keypair.technicalKey,
@@ -211,7 +211,7 @@ export class TechMaMacdCrossComponent implements OnInit, OnChanges {
 
     let interval = "weeks";
 
-    if (this.selectedTimeframe == '1D' || this.selectedTimeframe == '1d') {
+    if (this.selectedTimeframe == '1d') {
       interval = "days"
     }
     if (this.showingMaData) {

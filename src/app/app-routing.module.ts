@@ -8,6 +8,7 @@ import { TechnicalDashboardComponent } from './technical-dashboard/technical-das
 import { DocumentationComponent } from './documentation/documentation.component';
 import { TechResistanceCrossComponent } from './tech-resistance-cross/tech-resistance-cross.component';
 import { TechMaMacdCrossComponent } from './tech-ma-macd-cross/tech-ma-macd-cross.component';
+import { TechBollingerBandsComponent } from './tech-bollinger-bands/tech-bollinger-bands.component';
 
 
 
@@ -20,7 +21,9 @@ const routes: Routes = [
   { path: 'dashboard', component : TechnicalDashboardComponent}, 
   { path: 'documentation', component: DocumentationComponent },
   { path: 'dashboard/resistance', component: TechResistanceCrossComponent },
-  { path: 'dashboard/momentum/:id', component: TechMaMacdCrossComponent }
+  { path: 'dashboard/momentum/:id', component: TechMaMacdCrossComponent },
+  { path: 'dashboard/bollinger', component: TechBollingerBandsComponent }
+
 
 ];
 

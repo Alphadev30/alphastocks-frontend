@@ -27,6 +27,7 @@ import { TechResistanceCrossComponent } from './tech-resistance-cross/tech-resis
 import { OneDecimalPlacePipe } from './decimal.pipe';
 import { TechMaMacdCrossComponent } from './tech-ma-macd-cross/tech-ma-macd-cross.component';
 import { TabComponent } from './tab/tab.component';
+import { TechBollingerBandsComponent } from './tech-bollinger-bands/tech-bollinger-bands.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { TabComponent } from './tab/tab.component';
     TechResistanceCrossComponent,
     TechMaMacdCrossComponent,
     TabComponent,
+    TechBollingerBandsComponent,
   ],
   imports: [
     BrowserModule,

@@ -139,7 +139,7 @@ export class TechResistanceCrossComponent implements OnInit {
 
     let interval = "weeks";
 
-    if (this.selectedTimeframe == '1D' || this.selectedTimeframe == '1d') {
+    if (this.selectedTimeframe == '1d') {
       interval = "days"
     }
 

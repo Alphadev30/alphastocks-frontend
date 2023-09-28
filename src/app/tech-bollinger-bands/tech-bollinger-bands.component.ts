@@ -1,36 +1,26 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from '../services/localStorage/local-storage.service';
 import { environment } from 'src/enironments/environment';
 import { keypair } from 'src/enironments/keypairs';
 
 @Component({
-  selector: 'app-technical-dashboard',
-  templateUrl: './technical-dashboard.component.html',
-  styleUrls: ['./technical-dashboard.component.scss']
+  selector: 'app-tech-bollinger-bands',
+  templateUrl: './tech-bollinger-bands.component.html',
+  styleUrls: ['./tech-bollinger-bands.component.scss']
 })
-export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
+export class TechBollingerBandsComponent implements OnInit {
 
-  @ViewChild('typingElement', { static: true }) typingElement!: ElementRef;
-
-
-  maFilteredStocks: any[] = [];
-  macdFilteredStocks: any[] = [];
+  bollingerFilteredStocks: any[] = [];
   filteredStock: any[] = [];
 
-  // MA Fields variables
-  shortMa: number = 0;
-  longMa: number = 0;
-
-  // MACD Variables
-  macdFastLength: number = 0;
-  macdSlowLength: number = 0;
-  macdSignalLength: number = 0;
+  length = 20;
+  mult = 2 ;
 
   // Candlestick Timeframe
   selectedTimeframe: string = '1wk';
 
-  resultMessage: string = "Fine-tune settings and discover NSE stocks showing recent MA and MACD crossovers among 300+ companies analyzed by our bot.";
+  resultMessage: string = "Discover NSE stocks exceeding resistance among 300+ companies analyzed by our bot, adjusted to your time interval.";
 
   isLoading = false;
   showingMaData = true;
@@ -51,69 +41,73 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
   originalStockData: any[] = []; // Initialize this with your original data
   filteredStockData: any[] = []; // Initialize this as an empty array
 
-  // Bar Charts
 
+  // Bar Charts
   public resultData = [
     { name: 'Company A', value1: 65, value2: 80, value3: 45 },
     { name: 'Company B', value1: 75, value2: 70, value3: 60 },
     // Add more data objects as needed
   ];
 
-  constructor(private http: HttpClient, private router: Router) { }
+   // Tabs
+   tabData: any[] = [];
+   selectedTab: number = 0;
+ 
+   localStorageKey : string = "tabDataBollinger_";
+
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
+    //localStorage.clear();
 
     this.setDefaultValues();
 
-    const bannerHeading = this.typingElement.nativeElement;
-    const text = "Where Data Drives Your Investment Strategy";
-    let index = 0;
-
-    function type() {
-      if (index < text.length) {
-        bannerHeading.textContent += text.charAt(index);
-        index++;
-        setTimeout(type, 55); // Adjust typing speed here (in milliseconds)
-      }
-    }
-
-    type();
   }
 
-  ngAfterViewInit(): void {
+  onTabChanged(tab : any) : void {
+    this.selectedTab = tab;
+  }
+
+  onTabDataChanged(newData: any): void {
+    // Handle the updated tabData received from the TabComponent
+    this.displayedStockData = newData;
   }
 
 
+  // Save tab data to local storage
+  saveTabData(tabIndex: number): void {
+    //this.tabData[tabIndex] = this.displayedStockData;
+    const dataToSave = this.displayedStockData;
+    localStorage.setItem(this.localStorageKey + tabIndex, JSON.stringify(dataToSave));
+  }
 
-
+  
 
 
   runBot(): void {
-    if (this.showingMaData) {
-      this.findMaCrossovers();
-    }
-    else {
-      this.findMacdCrossovers();
-    }
+    this.findBollingerCross();
   }
 
-  findMacdCrossovers() {
+  findBollingerCross() {
 
-    console.log("running macd : ")
-    const getMaCrossoverAPI = environment.getMacdCross;
-    const params = new HttpParams().set('fastlength', this.macdFastLength).set('slowlength', this.macdSlowLength).set('signallength', this.macdSignalLength).set('TimeFrame', '' + this.selectedTimeframe.toLowerCase());
+
+    const getBollingerAPI = environment.getBollingerBands;
+    console.log(this.selectedTimeframe)
+    const params = new HttpParams().set('signalLength', this.length).set('mult', this.mult).set('TimeFrame', '' + this.selectedTimeframe.toLowerCase());
     this.isLoading = true;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: keypair.technicalKey,
     });
 
-    this.http.get(getMaCrossoverAPI, { headers, params }).subscribe(
+    this.http.get(getBollingerAPI, { headers, params }).subscribe(
       (response: any) => {
-        this.macdFilteredStocks = response;
-        this.showMacdTab();
+        this.bollingerFilteredStocks = response;
+        this.showResTab();
         this.updateDisplayedContent();
+        //this.addTab();
         this.isLoading = false;
+        this.saveTabData(this.selectedTab);
       },
       (error) => {
         console.error('Error fetching macd data:', error);
@@ -123,64 +117,25 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
     this.updateDisplayedContent();
   }
 
-  findMaCrossovers() {
-    console.log("running ma : ")
-    const getMaCrossoverAPI = environment.getMaCross;
-    const params = new HttpParams().set('shortma', this.shortMa).set('longma', this.longMa).set('TimeFrame', '' + this.selectedTimeframe.toLowerCase());
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: keypair.technicalKey,
-    });
-    this.isLoading = true;
 
-    this.http.get(getMaCrossoverAPI, { headers, params }).subscribe(
-      (response: any) => {
-        this.maFilteredStocks = response;
-        this.showMaTab();
-        this.updateDisplayedContent();
-        this.isLoading = false;
-      },
-      (error) => {
-        console.error('Error fetching ma data:', error);
-        this.isLoading = false;
-      }
-    );
-
+  showResTab() {
+    this.totalPages = Math.ceil(this.bollingerFilteredStocks.length / this.itemsPerPage);
+    this.filteredStock = this.bollingerFilteredStocks;
+    this.setResultMessage();
+    this.currentPage = 1;
     this.updateDisplayedContent();
-    //this.findMacdCrossovers();
+    
   }
 
 
 
   setDefaultValues() {
-    this.shortMa = 35;
-    this.longMa = 140;
-    this.macdFastLength = 15;
-    this.macdSlowLength = 30;
-    this.macdSignalLength = 8;
+
     this.selectedTimeframe = '1wk'
 
-    this.resultMessage = "Fine-tune settings and discover NSE stocks showing recent MA and MACD crossovers among 300+ companies analyzed by our bot."
+    this.resultMessage = ""
   }
 
-  showMacdTab() {
-    this.totalPages = Math.ceil(this.macdFilteredStocks.length / this.itemsPerPage);
-    this.filteredStock = this.macdFilteredStocks;
-    this.showingMaData = false;
-    this.setResultMessage();
-    this.currentPage = 1;
-    this.updateDisplayedContent();
-  }
-
-  showMaTab() {
-    this.totalPages = Math.ceil(this.maFilteredStocks.length / this.itemsPerPage);
-    this.filteredStock = this.maFilteredStocks;
-    this.showingMaData = true;
-    this.setResultMessage();
-    this.currentPage = 1;
-
-    this.updateDisplayedContent();
-  }
 
   setResultMessage() {
 
@@ -189,11 +144,9 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
     if (this.selectedTimeframe == '1d') {
       interval = "days"
     }
-    if (this.showingMaData) {
-      this.resultMessage = "These stocks were selected based on a " + this.shortMa + "-day short-term and " + this.longMa + "-day long-term Moving Average (MA), detecting crossovers that occurred in the past 8 " + interval;
-    } else {
-      this.resultMessage = "These are your custom MACD-filtered stocks, detecting crossovers that occurred in the past 6 " + interval;
-    }
+
+    this.resultMessage = "The current price is near the lower band level for these stocks";
+
   }
 
   nextPage(): void {
@@ -214,8 +167,8 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     //let stockData = this.filteredStock.slice();
     this.originalStockData = this.filteredStock.slice(startIndex, startIndex + this.itemsPerPage);
-
     this.displayedStockData = this.originalStockData
+    //this.loadTabData()
   }
 
   showFilterPopup() {
@@ -300,31 +253,4 @@ export class TechnicalDashboardComponent implements OnInit, AfterViewInit {
     // Close the filter popup
     this.closeFilterPopup();
   }
-
-  navigateToResistance() {
-    this.router.navigate(['/dashboard/resistance']);
-  }
-
-  navigateToMovingAverage(id: any) {
-    console.log(id)
-    //this.router.navigate(['/dashboard/momentum']);
-
-    // Define the route and parameters
-    const route = ['/dashboard/momentum', id];
-
-    // Create the URL tree with the route and parameters
-    const urlTree = this.router.createUrlTree(route);
-
-    // Serialize the URL tree to a string
-    const url = this.router.serializeUrl(urlTree);
-
-    // Navigate to the generated URL
-    this.router.navigateByUrl(url);
-  }
-
-  navigateToBollinger() {
-    this.router.navigate(['/dashboard/bollinger']);
-  }
-
 }
-
