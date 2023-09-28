@@ -47,12 +47,21 @@
             </div>
         </div>
 
+        
+
         <div class="dashboard-card tile card-theme-secondary">
             <div class="tile-content">
                 <h2><b>Stochastic Bots</b></h2>
                 <div>In Progress</div>
 
                 <p>Detects overbought/oversold conditions and trend reversals.</p>
+            </div>
+        </div>
+
+        <div class="dashboard-card tile ">
+            <div class="tile-content" (click)="navigateToVolatility()">
+                <h2><b>Volatility Bot</b></h2>
+                <p>Pinpoints highly volatile stocks, crucial for day trading or options strategies.</p>
             </div>
         </div>
         <div class="dashboard-card tile">
@@ -73,14 +82,7 @@
             </div>
         </div>
 
-        <div class="dashboard-card tile ">
-            <div class="tile-content">
-                <h2><b>Volatility Bot</b></h2>
-                <div>In Progress</div>
-
-                <p>Pinpoints highly volatile stocks, crucial for day trading or options strategies.</p>
-            </div>
-        </div>
+       
 
         <div class="dashboard-card tile card-rect card-theme-primary">
             <div class="tile-content">

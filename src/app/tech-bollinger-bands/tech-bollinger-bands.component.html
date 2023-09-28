@@ -40,7 +40,7 @@
                     <div class="form-group">
                         <label for="timeframe">Select Timeframe:</label>
                         <select id="timeframe" name="timeframe" [(ngModel)]="selectedTimeframe">
-                            <option value="1D">1 Day</option>
+                            <option value="1d">1 Day</option>
                             <option value="1wk">1 Week</option>
                         </select>
                     </div>
@@ -95,7 +95,7 @@
                         <th>Stock Name</th>
                         <th>Current Price</th>
                         <th>% Change <span *ngIf="selectedTimeframe == '1wk'">( Weekly )</span><span
-                                *ngIf="selectedTimeframe == '1D'">( Daily )</span></th>
+                                *ngIf="selectedTimeframe == '1d'">( Daily )</span></th>
                         <th>Bollinger Bands</th>
                         <th>Volume- 3 days</th>
                     </tr>

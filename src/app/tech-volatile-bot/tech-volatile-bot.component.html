@@ -7,51 +7,20 @@
 
     </div>
 
-    <h1 *ngIf="showingMaData">Moving Average Monitor</h1>
-    <p *ngIf="showingMaData"> <span>Customize your preferences and explore NSE stocks with recent MACD crossovers from
-            our analysis of 300+ companies.</span> </p>
-
-    <h1 *ngIf="!showingMaData">MACD Monitor</h1>
-    <p *ngIf="!showingMaData"> <span>Customize your preferences and explore NSE stocks with recent MA crossovers from
-            our analysis of 300+ companies.</span> </p>
+    <h1>Volatility Bot</h1>
+    <p> <span>Discover the volatility of NSE stocks from over 300 companies, customized to your chosen time frame</span> </p>
 
     <div class="dashboard-content">
 
         <div class="parameter-section">
             <h2>Set Parameters</h2>
 
-            <!-- MA Crossovers -->
             <div class="parameter-group" *ngIf="showingMaData">
-                <h3>MA Crossovers</h3>
+                <h3>Volatility Bot</h3>
                 <form>
                     <div class="form-group">
-                        <label for="shortMa">Short MA:</label>
-                        <input type="number" id="shortMa" name="shortMa" [(ngModel)]="shortMa">
-                    </div>
-                    <div class="form-group">
-                        <label for="longMa">Long MA:</label>
-                        <input type="number" id="longMa" name="longMa" [(ngModel)]="longMa">
-                    </div>
-
-                </form>
-            </div>
-
-            <!-- MACD Parameters -->
-            <div class="parameter-group" *ngIf="!showingMaData">
-                <h3>MACD Parameters</h3>
-                <form>
-                    <div class="form-group">
-                        <label for="macdFastLength">Fast Length:</label>
-                        <input type="number" id="macdFastLength" name="macdFastLength" [(ngModel)]="macdFastLength">
-                    </div>
-                    <div class="form-group">
-                        <label for="macdSlowLength">Slow Length:</label>
-                        <input type="number" id="macdSlowLength" name="macdSlowLength" [(ngModel)]="macdSlowLength">
-                    </div>
-                    <div class="form-group">
-                        <label for="macdSignalLength">Signal Length:</label>
-                        <input type="number" id="macdSignalLength" name="macdSignalLength"
-                            [(ngModel)]="macdSignalLength">
+                        <label for="length">Period:</label>
+                        <input type="number" id="period" name="period" [(ngModel)]="period">
                     </div>
                 </form>
             </div>
@@ -82,17 +51,11 @@
         <div class="results-section">
 
             <div class="tab-buttons">
-                <!-- <div class="left-buttons">
-                    <button class="button d-none" [ngClass]="{'active-btn': showingMaData}" (click)="showMaTab()">MA
-                        CROSS</button>
-                    <button class="button d-none" [ngClass]="{'active-btn': !showingMaData}"
-                        (click)="showMacdTab()">MACD
-                        CROSS</button>
-                </div> -->
-
-                <app-tab [pageName]="localStorageKey" (currentTab) = "onTabChanged($event)" (tabDataChanged)="onTabDataChanged($event)"></app-tab>
+                <div class="left-buttons">
+                    <app-tab [pageName]="localStorageKey" (currentTab)="onTabChanged($event)"
+                        (tabDataChanged)="onTabDataChanged($event)"></app-tab>
+                </div>
                 <button class="button filter-button" (click)="showFilterPopup()">Filters</button>
-
             </div>
 
             <!-- Create a hidden filter popup -->
@@ -120,9 +83,6 @@
 
             <h2>{{ resultMessage }}</h2>
 
-
-
-
             <table>
                 <thead>
                     <tr>
@@ -130,7 +90,8 @@
                         <th>Current Price</th>
                         <th>% Change <span *ngIf="selectedTimeframe == '1wk'">( Weekly )</span><span
                                 *ngIf="selectedTimeframe == '1d'">( Daily )</span></th>
-                        <th>Volume - 3 days</th>
+                        <th>Volatility</th>
+                        <th>Volume- 3 days</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,6 +103,12 @@
                         <td [ngStyle]="{'color': getPercentageChangeColor(stock.price.today, stock.price.oneDayPrior)}">
                             {{ calculatePercentageChange(stock.price.today, stock.price.oneDayPrior) }}
                         </td>
+
+                        <td>
+                            {{stock.volatile.value | oneDecimalPlace}}% <span *ngIf="stock.volatile.value < 1">Low</span>
+                            <span *ngIf="stock.volatile.value < 2 && stock.volatile.value > 1 ">Moderate</span>
+                            <span *ngIf="stock.volatile.value > 2">High</span>
+                        </td>
                         <td>
                             <div class="bar-chart">
                                 <app-bar-chart
@@ -149,12 +116,6 @@
                                     [chartLabels]="['', '', '']"></app-bar-chart>
                             </div>
                         </td>
-
-
-
-
-
-
                     </tr>
 
                     <tr class="d-none">
@@ -186,12 +147,8 @@
                             </div>
                         </td>
                     </tr>
-
                 </tbody>
             </table>
-
-
-
 
             <div class="pagination">
                 <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
