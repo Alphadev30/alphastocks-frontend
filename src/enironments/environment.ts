@@ -10,5 +10,7 @@ export const environment = {
     // Technical APIS
     getMaCross : 'https://alpha-stocks-2-e991251132bd.herokuapp.com/analyze/ma',
     getMacdCross : 'https://alpha-stocks-2-e991251132bd.herokuapp.com/analyze/macd' ,
-    getResCross: 'https://alpha-stocks-2-e991251132bd.herokuapp.com/bot/resistance'
+    getResCross: 'https://alpha-stocks-2-e991251132bd.herokuapp.com/bot/resistance',
+    getBollingerBands : 'https://alpha-stocks-2-e991251132bd.herokuapp.com/bot/bollinger',
+    getVolatility : 'https://alpha-stocks-2-e991251132bd.herokuapp.com/bot/volatile'
   };

@@ -61,6 +61,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        div{
+            font-size: 12px;
+            padding: 2px 8px;
+            color: #0f0909;
+            margin-top: -7px;
+            background-color: #f4eeee4d;
+        }
     }
 
     .tile-content h2 {
@@ -123,6 +131,8 @@
         animation: spin 2s linear infinite;
     }
 
+    
+
     /* Add a simple spin animation */
     @keyframes spin {
         0% {
@@ -133,6 +143,10 @@
             transform: rotate(360deg);
         }
     }
+
+
+      
+
 
 
 }
