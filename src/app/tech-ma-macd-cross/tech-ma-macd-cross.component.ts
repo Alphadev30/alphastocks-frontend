@@ -101,6 +101,7 @@ export class TechMaMacdCrossComponent implements OnInit, OnChanges {
     //console.log("New data : ", newData);
     // this.tabData = newData;
     this.displayedStockData = newData;
+    this.filteredStock = newData;
   }
 
 
@@ -203,7 +204,6 @@ export class TechMaMacdCrossComponent implements OnInit, OnChanges {
     this.showingMaData = true;
     this.setResultMessage();
     this.currentPage = 1;
-
     this.updateDisplayedContent();
   }
 

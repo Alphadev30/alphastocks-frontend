@@ -71,6 +71,8 @@ export class TechBollingerBandsComponent implements OnInit {
   onTabDataChanged(newData: any): void {
     // Handle the updated tabData received from the TabComponent
     this.displayedStockData = newData;
+    this.filteredStock = newData;
+
   }
 
 
