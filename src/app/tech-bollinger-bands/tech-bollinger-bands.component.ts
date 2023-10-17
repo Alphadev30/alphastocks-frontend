@@ -72,14 +72,17 @@ export class TechBollingerBandsComponent implements OnInit {
     // Handle the updated tabData received from the TabComponent
     this.displayedStockData = newData;
     this.filteredStock = newData;
+    this.bollingerFilteredStocks = newData;
 
+    this.showTabData();
+``
   }
 
 
   // Save tab data to local storage
   saveTabData(tabIndex: number): void {
     //this.tabData[tabIndex] = this.displayedStockData;
-    const dataToSave = this.displayedStockData;
+    const dataToSave = this.bollingerFilteredStocks;
     localStorage.setItem(this.localStorageKey + tabIndex, JSON.stringify(dataToSave));
   }
 
@@ -105,7 +108,7 @@ export class TechBollingerBandsComponent implements OnInit {
     this.http.get(getBollingerAPI, { headers, params }).subscribe(
       (response: any) => {
         this.bollingerFilteredStocks = response;
-        this.showResTab();
+        this.showTabData();
         this.updateDisplayedContent();
         //this.addTab();
         this.isLoading = false;
@@ -120,7 +123,7 @@ export class TechBollingerBandsComponent implements OnInit {
   }
 
 
-  showResTab() {
+  showTabData() {
     this.totalPages = Math.ceil(this.bollingerFilteredStocks.length / this.itemsPerPage);
     this.filteredStock = this.bollingerFilteredStocks;
     this.setResultMessage();
