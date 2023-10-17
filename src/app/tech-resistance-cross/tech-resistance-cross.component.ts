@@ -70,14 +70,16 @@ export class TechResistanceCrossComponent implements OnInit {
     // Handle the updated tabData received from the TabComponent
     this.displayedStockData = newData;
     this.filteredStock = newData;
+    this.resFilteredStocks = newData
 
+    this.showTabData();
   }
 
 
   // Save tab data to local storage
   saveTabData(tabIndex: number): void {
     //this.tabData[tabIndex] = this.displayedStockData;
-    const dataToSave = this.displayedStockData;
+    const dataToSave = this.resFilteredStocks;
     localStorage.setItem(this.localStorageKey + tabIndex, JSON.stringify(dataToSave));
   }
 
@@ -102,7 +104,7 @@ export class TechResistanceCrossComponent implements OnInit {
     this.http.get(getResCrossoverAPI, { headers, params }).subscribe(
       (response: any) => {
         this.resFilteredStocks = response;
-        this.showResTab();
+        this.showTabData();
         this.updateDisplayedContent();
         //this.addTab();
         this.isLoading = false;
@@ -117,7 +119,7 @@ export class TechResistanceCrossComponent implements OnInit {
   }
 
 
-  showResTab() {
+  showTabData() {
     this.totalPages = Math.ceil(this.resFilteredStocks.length / this.itemsPerPage);
     this.filteredStock = this.resFilteredStocks;
     this.showingMaData = false;

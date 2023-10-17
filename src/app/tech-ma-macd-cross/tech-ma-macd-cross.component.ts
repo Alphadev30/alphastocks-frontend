@@ -102,13 +102,31 @@ export class TechMaMacdCrossComponent implements OnInit, OnChanges {
     // this.tabData = newData;
     this.displayedStockData = newData;
     this.filteredStock = newData;
+    this.macdFilteredStocks = newData;
+    this.maFilteredStocks = newData;
+    
+    if(this.showingMaData){
+      this.showMaTab();
+    }
+    if(!this.showingMaData){
+      this.showMacdTab();
+    }
+    
   }
 
 
   // Save tab data to local storage
   saveTabData(tabIndex: number): void {
-    //this.tabData[tabIndex] = this.displayedStockData;
-    const dataToSave = this.displayedStockData;
+
+    let dataToSave = this.displayedStockData;
+
+    if(this.showingMaData){
+      dataToSave = this.maFilteredStocks;
+    }
+    if(!this.showingMaData){
+      dataToSave = this.macdFilteredStocks;
+    }
+    
     localStorage.setItem(this.localStorageKey + tabIndex, JSON.stringify(dataToSave));
   }
 

@@ -11,7 +11,7 @@ import { keypair } from 'src/enironments/keypairs';
 })
 export class TechVolatileBotComponent  implements OnInit {
 
-  bollingerFilteredStocks: any[] = [];
+  volatileFilteredStocks: any[] = [];
   filteredStock: any[] = [];
 
   period = 30;
@@ -70,15 +70,16 @@ export class TechVolatileBotComponent  implements OnInit {
   onTabDataChanged(newData: any): void {
     // Handle the updated tabData received from the TabComponent
     this.displayedStockData = newData;
+    this.volatileFilteredStocks = newData;
     this.filteredStock = newData;
-
+    this.showTabData();
   }
 
 
   // Save tab data to local storage
   saveTabData(tabIndex: number): void {
     //this.tabData[tabIndex] = this.displayedStockData;
-    const dataToSave = this.displayedStockData;
+    const dataToSave = this.volatileFilteredStocks;
     localStorage.setItem(this.localStorageKey + tabIndex, JSON.stringify(dataToSave));
   }
 
@@ -103,8 +104,8 @@ export class TechVolatileBotComponent  implements OnInit {
 
     this.http.get(getVolatileAPI, { headers, params }).subscribe(
       (response: any) => {
-        this.bollingerFilteredStocks = response;
-        this.showResTab();
+        this.volatileFilteredStocks = response;
+        this.showTabData();
         this.updateDisplayedContent();
         //this.addTab();
         this.isLoading = false;
@@ -119,9 +120,9 @@ export class TechVolatileBotComponent  implements OnInit {
   }
 
 
-  showResTab() {
-    this.totalPages = Math.ceil(this.bollingerFilteredStocks.length / this.itemsPerPage);
-    this.filteredStock = this.bollingerFilteredStocks;
+  showTabData() {
+    this.totalPages = Math.ceil(this.volatileFilteredStocks.length / this.itemsPerPage);
+    this.filteredStock = this.volatileFilteredStocks;
     this.setResultMessage();
     this.currentPage = 1;
     this.updateDisplayedContent();
