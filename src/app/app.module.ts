@@ -14,7 +14,7 @@ import { TruncatePipe } from './truncate.pipe';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgChartsModule  } from 'ng2-charts';
 
 
@@ -58,6 +58,7 @@ import { TechVolatileBotComponent } from './tech-volatile-bot/tech-volatile-bot.
     HttpClientModule,
     FontAwesomeModule ,
     FormsModule,
+    ReactiveFormsModule,
     NgChartsModule 
   ],
   providers: [CompanyDataServices],

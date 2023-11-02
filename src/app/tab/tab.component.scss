@@ -5,13 +5,64 @@
 
 .active-btn {
     background-color: #b4bec5;
-    border: 3cap solid rgb(169, 156, 156);
+    border: 3px solid rgb(206, 189, 189);
     border-bottom: none;
 }
-
-
 
 .left-buttons {
     display: flex;
     gap: 1px;
 }
+
+/* Style for the search bar container */
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Style for the input field */
+input[type="text"] {
+    flex-grow: 1;
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    height: 42px;
+    margin-top: 10px;
+    margin-left: 31rem;
+}
+
+input[type="text"]:focus {
+    border-color: #b4bec5; /* Change the border color on focus */
+}
+
+@media screen and (max-width: 768px) {
+    input[type="text"] {
+        margin-left: 0rem; /* Reset left margin for smaller screens */
+    }
+    .left-buttons{
+        display: inline;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .left-buttons{
+        display: inline;
+    }
+    input[type="text"] {
+        margin-left: 0rem; /* Reset left margin for smaller screens */
+    }
+
+}
+
+@media screen and (max-width: 1120px) {
+    .left-buttons{
+        display: inline;
+    }
+    input[type="text"] {
+        margin-left: 0rem; /* Reset left margin for smaller screens */
+    }
+}
+

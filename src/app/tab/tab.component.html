@@ -3,4 +3,11 @@
         (click)="selectTab(i)">
         Setup {{ i + 1 }}
     </button>
+
+    
+    <div class="search-bar">
+        <input type="text" placeholder="Search by symbol..." [(ngModel)]="searchTerm" (input)="searchData()" />
+    </div>
+    
 </div>
+
