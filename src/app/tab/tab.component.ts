@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-tab',
@@ -17,6 +18,14 @@ export class TabComponent implements OnInit {
   tabData: any[] = [];
   selectedTab: number = 0;
   totalTabs = 3;
+
+  displayedData: any[] = []; // Make sure displayedData is an array
+  searchedData : any[] = [];
+
+  searchTerm : string = "";
+
+  // Create a FormControl for the search input
+  searchInput = new FormControl();
 
   ngOnInit(): void {
     this.selectTab(this.selectedTab);
@@ -79,11 +88,38 @@ export class TabComponent implements OnInit {
   // Load tab data from local storage
   loadTabData(tabIndex: number): void {
     const savedData = localStorage.getItem(this.pageName + tabIndex);
-    console.log("Saved Data: " + savedData);
+
     if (savedData) {
       this.tabData[tabIndex] = JSON.parse(savedData);
+      this.displayedData = this.tabData[tabIndex]; // Assign the variable displayedData with savedData
     } else {
       this.tabData[tabIndex] = []; // Initialize with an empty array if no data is found
     }
+  }
+
+
+   // Add a function to search data based on the input
+   searchData(): void {
+
+    const searchTerm = this.searchTerm.toLowerCase();
+
+    if (searchTerm) {
+      // Filter displayedData based on the search term and store it in searchedData
+      this.searchedData = this.tabData[this.selectedTab].filter((item: { symbol: string; }) =>
+
+        item.symbol.toLowerCase().includes(searchTerm)
+      );
+    } else {
+      // If the search input is empty, reset searchedData to an empty array
+      this.searchedData = [];
+    }
+
+    this.tabDataChanged.emit(this.searchedData);
+  }
+
+
+  clearSearch(): void {
+    this.searchInput.setValue("");
+    this.searchedData = []; // Reset the searchedData to an empty array
   }
 }
