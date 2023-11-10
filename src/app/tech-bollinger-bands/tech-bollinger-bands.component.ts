@@ -97,7 +97,6 @@ export class TechBollingerBandsComponent implements OnInit {
 
 
     const getBollingerAPI = environment.getBollingerBands;
-    console.log(this.selectedTimeframe)
     const params = new HttpParams().set('signalLength', this.length).set('mult', this.mult).set('TimeFrame', '' + this.selectedTimeframe.toLowerCase());
     this.isLoading = true;
     const headers = new HttpHeaders({
